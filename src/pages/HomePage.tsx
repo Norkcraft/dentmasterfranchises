@@ -29,13 +29,22 @@ gsap.registerPlugin(ScrollTrigger);
 const serviceIcons = [Wrench, Zap, Car, Shield, Wrench];
 const topCities = cities.slice(0, 6);
 
-const homeFaqs = [
+const homeFaqsEn = [
   { q: "How much does paintless dent repair cost in Orlando?", a: "Costs vary by dent size and location. Small door dings start at $75-$150. Contact us for a free, no-obligation estimate." },
   { q: "Do you offer mobile dent repair service?", a: "Yes! We provide mobile PDR throughout Orlando and Central Florida. We come to your home, office, or dealership." },
   { q: "How long does PDR take?", a: "Most single-dent repairs take 30-90 minutes. Hail damage or multiple dents may take 1-5 days." },
   { q: "Do you work with insurance companies?", a: "Yes, we work with all major insurance providers and can help you file and manage your claim." },
   { q: "Is paintless dent repair permanent?", a: "Absolutely. PDR restores the metal to its original shape permanently. There's no filler to crack or shrink." },
   { q: "Do you offer service in Spanish?", a: "¡Sí! Hablamos Español. Our team includes Spanish-speaking staff ready to assist you." },
+];
+
+const homeFaqsEs = [
+  { q: "¿Cuánto cuesta la reparación de abolladuras sin pintura en Orlando?", a: "Los costos varían según el tamaño y la ubicación de la abolladura. Las pequeñas comienzan en $75-$150. Contáctenos para un presupuesto gratis." },
+  { q: "¿Ofrecen servicio móvil de reparación?", a: "¡Sí! Brindamos PDR móvil en todo Orlando y Florida Central. Vamos a su hogar, oficina o concesionario." },
+  { q: "¿Cuánto tiempo toma el PDR?", a: "La mayoría de las reparaciones de una sola abolladura toman 30-90 minutos. Daño por granizo puede tomar 1-5 días." },
+  { q: "¿Trabajan con compañías de seguros?", a: "Sí, trabajamos con todos los principales proveedores de seguros y podemos ayudarle a presentar y gestionar su reclamo." },
+  { q: "¿La reparación sin pintura es permanente?", a: "Absolutamente. El PDR restaura el metal a su forma original de manera permanente. No hay relleno que se agriete." },
+  { q: "¿Ofrecen servicio en español?", a: "¡Sí! Hablamos Español. Nuestro equipo incluye personal hispanohablante listo para ayudarle." },
 ];
 
 export default function HomePage() {
@@ -47,7 +56,7 @@ export default function HomePage() {
   const dealerRef = useScrollReveal<HTMLDivElement>({ y: 40, scale: 0.97 });
   const faqRef = useScrollReveal<HTMLDivElement>({ y: 30 });
   const ctaRef = useScrollReveal<HTMLDivElement>({ y: 30, scale: 0.98 });
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const [videoChoice, setVideoChoice] = useState<null | "quote" | "training">(null);
   const [showForm, setShowForm] = useState(false);
@@ -73,7 +82,7 @@ export default function HomePage() {
         path="/"
       />
       <LocalBusinessJsonLd />
-      <FAQJsonLd faqs={homeFaqs} />
+      <FAQJsonLd faqs={homeFaqsEn} />
 
       {/* ===== HERO ===== */}
       <section className="relative overflow-hidden min-h-[650px] flex items-center">
@@ -362,7 +371,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-foreground mb-8 text-center font-heading uppercase">
             {t("Frequently Asked Questions", "Preguntas Frecuentes")}
           </h2>
-          <FAQSection faqs={homeFaqs} />
+          <FAQSection faqs={lang === "es" ? homeFaqsEs : homeFaqsEn} />
         </div>
       </section>
 
