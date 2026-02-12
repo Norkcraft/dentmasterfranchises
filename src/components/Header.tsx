@@ -43,8 +43,7 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? "shadow-md" : "shadow-sm"}`}
-      style={{ backgroundColor: "hsl(0 0% 10%)" }}
+      className={`sticky top-0 z-50 transition-shadow duration-300 bg-charcoal ${scrolled ? "shadow-md shadow-black/40" : "shadow-sm shadow-black/20"}`}
     >
       <div className="mx-auto flex items-center justify-between h-[72px] max-w-[1280px] px-4 sm:px-6 lg:px-8">
         {/* Logo */}
@@ -132,7 +131,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="xl:hidden border-t border-[hsl(0_0%_20%)] overflow-y-auto max-h-[calc(100vh-72px)]" style={{ backgroundColor: "hsl(0 0% 10%)" }}>
+        <div className="xl:hidden border-t border-border overflow-y-auto max-h-[calc(100vh-72px)] bg-charcoal">
           <nav className="max-w-[1280px] mx-auto px-4 sm:px-6 py-4 space-y-1">
             {navLinks.map((link) => (
               <div key={link.to}>
