@@ -15,7 +15,7 @@ export default function AnimatedCounter({ end, suffix = "", prefix = "", label }
       <div className="text-4xl md:text-5xl font-bold text-primary font-heading">
         {prefix}<span ref={ref}>0</span>{suffix}
       </div>
-      <p className="text-sm text-muted-foreground mt-2">{label}</p>
+      <p className="text-sm text-white/60 mt-2">{label}</p>
     </div>
   );
 }
