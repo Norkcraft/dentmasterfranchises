@@ -24,11 +24,11 @@ export const services: ServiceData[] = [
       },
       {
         heading: "Why Choose Dent Master Franchise for PDR in Orlando?",
-        content: "Orlando drivers trust Dent Master Franchise because we combine precision craftsmanship with honest, transparent pricing. Our technicians have repaired thousands of vehicles across Central Florida, earning a reputation as the region's most reliable PDR provider. We offer same-day service for most repairs, mobile service options for your convenience, and competitive pricing that saves you up to 60% compared to traditional body shops. Every repair comes with our satisfaction guarantee. Whether your vehicle suffered a parking lot door ding, a shopping cart dent, or minor collision damage, we have the tools and expertise to restore it perfectly. We also work with insurance companies and can help you navigate your claim. Hablamos Español — our Spanish-speaking support team is ready to assist you."
+        content: "Orlando drivers trust Dent Master Franchise because we combine precision craftsmanship with honest, transparent pricing. Our technicians have repaired thousands of vehicles across Central Florida, earning a reputation as the region's most reliable PDR provider. We offer same-day service for most repairs, convenient scheduling, and competitive pricing that saves you up to 60% compared to traditional body shops. Every repair comes with our satisfaction guarantee. Whether your vehicle suffered a parking lot door ding, a shopping cart dent, or minor collision damage, we have the tools and expertise to restore it perfectly. We also work with insurance companies and can help you navigate your claim. Hablamos Español — our Spanish-speaking support team is ready to assist you."
       },
       {
         heading: "Benefits of Paintless Dent Repair",
-        content: "There are many reasons why PDR has become the preferred repair method for vehicle owners, dealerships, and insurance companies alike. First, it's faster — most repairs are completed in 1-3 hours, compared to days at a traditional body shop. Second, it's more affordable — without the materials and labor of repainting, costs are significantly lower. Third, it preserves your factory finish — this is essential for maintaining your vehicle's value and avoiding issues with mismatched paint. Fourth, it's environmentally friendly — no chemicals, no paint waste, no VOC emissions. And fifth, it's convenient — we offer mobile service throughout the Orlando metro area, so we can come to your home, office, or dealership."
+        content: "There are many reasons why PDR has become the preferred repair method for vehicle owners, dealerships, and insurance companies alike. First, it's faster — most repairs are completed in 1-3 hours, compared to days at a traditional body shop. Second, it's more affordable — without the materials and labor of repainting, costs are significantly lower. Third, it preserves your factory finish — this is essential for maintaining your vehicle's value and avoiding issues with mismatched paint. Fourth, it's environmentally friendly — no chemicals, no paint waste, no VOC emissions. And fifth, it's convenient — we serve the entire Orlando metro area and can work around your schedule."
       },
       {
         heading: "Types of Damage We Repair with PDR",
@@ -40,7 +40,7 @@ export const services: ServiceData[] = [
       },
       {
         heading: "Serving Orlando and All of Central Florida",
-        content: "Dent Master Franchise proudly serves Orlando and surrounding communities including Kissimmee, Winter Park, Altamonte Springs, Sanford, Lake Mary, Oviedo, Apopka, Winter Garden, Clermont, and more. Our mobile PDR service means we bring the shop to you — whether you're at home, at work, or at your dealership. We're committed to making dent repair as convenient as possible for every customer in the Central Florida region. Contact us today to schedule your free estimate or get an instant quote online."
+        content: "Dent Master Franchise proudly serves Orlando and surrounding communities including Kissimmee, Winter Park, Altamonte Springs, Sanford, Lake Mary, Oviedo, Apopka, Winter Garden, Clermont, and more. We're committed to making dent repair as convenient as possible for every customer in the Central Florida region. Contact us today to schedule your free estimate or get an instant quote online."
       }
     ],
     faqs: [
@@ -48,7 +48,7 @@ export const services: ServiceData[] = [
       { q: "Will PDR damage my vehicle's paint?", a: "No. PDR is specifically designed to preserve your factory paint finish. Our technicians work carefully from behind the panel to reshape the metal without touching the painted surface." },
       { q: "How much does paintless dent repair cost in Orlando?", a: "Costs vary based on the size, depth, and location of the dent. Small door dings typically start at $75-$150, while larger or more complex dents may cost more. Contact us for a free estimate." },
       { q: "Can PDR fix all types of dents?", a: "PDR works best on dents where the paint is still intact. Very sharp creases, dents on body edges, or damage where the paint has cracked may require additional repair methods." },
-      { q: "Do you offer mobile PDR service in Orlando?", a: "Yes! We offer mobile paintless dent repair throughout the Orlando metro area. We can come to your home, office, or dealership at no extra charge." },
+      { q: "Do you offer PDR service throughout Orlando?", a: "Yes! We offer paintless dent repair throughout the Orlando metro area. Contact us to schedule at a convenient time." },
       { q: "Is paintless dent repair covered by insurance?", a: "Yes, most insurance policies cover PDR. We work directly with insurance companies and can help you file and manage your claim." },
       { q: "Do you offer Spanish-speaking support?", a: "¡Sí! Hablamos Español. Our team includes Spanish-speaking technicians and support staff ready to assist you." }
     ]
@@ -92,7 +92,7 @@ export const services: ServiceData[] = [
       { q: "Can PDR remove all hail dents?", a: "PDR can remove the vast majority of hail dents, especially when the paint is intact. In rare cases where paint has been cracked by severe hail, additional repair may be needed for those specific spots." },
       { q: "How much does hail damage repair cost?", a: "Cost depends on the number and severity of dents. PDR is typically 40-60% less expensive than traditional body shop repair. Contact us for a free detailed estimate." },
       { q: "Should I get hail damage repaired right away?", a: "Yes, we recommend prompt repair. Unrepaired hail damage can lead to paint issues over time, reduces your vehicle's value, and may complicate future insurance claims." },
-      { q: "Do you offer mobile hail damage repair?", a: "Yes, we can come to your location for hail damage assessment and in many cases perform the repair on-site. Contact us to schedule." },
+      { q: "Do you offer hail damage repair across Orlando?", a: "Yes, we serve the entire Orlando metro and Central Florida area for hail damage assessment and repair. Contact us to schedule." },
       { q: "What if my vehicle has both hail damage and other dents?", a: "We can address all types of dents during the same repair session. This is actually more cost-effective and convenient for you." }
     ]
   },
@@ -121,8 +121,8 @@ export const services: ServiceData[] = [
         content: "When you bring your vehicle to Dent Master Franchise for minor dent removal, here's what to expect. First, we assess the damage — examining the dent's size, depth, location, and the condition of the surrounding paint. Most minor dents are ideal candidates for PDR. Next, we gain access to the back of the panel, which may involve removing interior trim panels, tail lights, or other components. Using precision PDR tools, we carefully work the dent from behind, gradually restoring the panel to its original contour. We verify the repair using specialized LED reflection boards that reveal even the slightest imperfection. Finally, we reinstall any removed components and give the area a final clean and polish. The result is a perfect repair that preserves your factory paint."
       },
       {
-        heading: "Mobile Dent Removal Service in Orlando",
-        content: "We know your time is valuable, which is why Dent Master Franchise offers mobile minor dent removal throughout the Orlando metropolitan area. Our mobile technicians bring everything needed to perform a professional PDR repair directly to your location — whether that's your home, your workplace, or anywhere else that's convenient for you. Mobile service is especially popular for minor dent repairs because they're quick enough to complete during a lunch break or while you're going about your day. There's no need to drop off your car at a shop and arrange alternative transportation. We come to you, fix the dent, and you're on your way. It's dent repair made convenient."
+        heading: "Convenient Dent Removal Service in Orlando",
+        content: "We know your time is valuable, which is why Dent Master Franchise offers convenient dent removal throughout the Orlando metropolitan area. Our technicians bring everything needed to perform a professional PDR repair. Minor dent repairs are quick enough to complete during a lunch break or while you're going about your day. We work around your schedule to make dent repair as easy as possible. It's dent repair made convenient."
       },
       {
         heading: "Maintain Your Vehicle's Value with Professional Dent Removal",
@@ -135,7 +135,7 @@ export const services: ServiceData[] = [
       { q: "Can you remove dents from any part of the car?", a: "We can remove dents from most body panels including doors, fenders, hoods, roofs, trunk lids, and quarter panels. Some areas with limited access may require special techniques." },
       { q: "Will there be any sign of repair after PDR?", a: "When performed by our skilled technicians, PDR leaves absolutely no evidence of repair. The panel is restored to its original factory condition." },
       { q: "Do I need an appointment for minor dent removal?", a: "While we welcome walk-ins, we recommend scheduling an appointment to ensure prompt service. Contact us to book a time that works for you." },
-      { q: "Can you come to my location for dent removal?", a: "Yes! We offer mobile dent removal service throughout the Orlando metro area. We'll come to your home, office, or any convenient location." },
+      { q: "Can you come to my location for dent removal?", a: "Yes! We offer dent removal service throughout the Orlando metro area. Contact us to schedule at a convenient time." },
       { q: "Is there a warranty on minor dent repairs?", a: "Yes, all our PDR repairs come with a satisfaction guarantee. We stand behind the quality of our work and want every customer to be completely satisfied." }
     ]
   },
@@ -169,7 +169,7 @@ export const services: ServiceData[] = [
       },
       {
         heading: "Collision Repair Throughout Central Florida",
-        content: "Dent Master Franchise provides PDR-based collision repair services throughout the Orlando metropolitan area and Central Florida. Whether you're in Orlando, Kissimmee, Winter Park, Sanford, Oviedo, Apopka, or any surrounding community, we're here to help. Our mobile service means we can come to you for assessment and in many cases perform the repair at your location. After a minor collision, the last thing you need is more stress. Let Dent Master Franchise simplify the repair process with professional, efficient, PDR-based collision repair. Hablamos Español — estamos aquí para ayudarle con cualquier daño de colisión."
+        content: "Dent Master Franchise provides PDR-based collision repair services throughout the Orlando metropolitan area and Central Florida. Whether you're in Orlando, Kissimmee, Winter Park, Sanford, Oviedo, Apopka, or any surrounding community, we're here to help. After a minor collision, the last thing you need is more stress. Let Dent Master Franchise simplify the repair process with professional, efficient, PDR-based collision repair. Hablamos Español — estamos aquí para ayudarle con cualquier daño de colisión."
       }
     ],
     faqs: [
@@ -211,7 +211,7 @@ export const services: ServiceData[] = [
       },
       {
         heading: "Schedule Your Fender Repair Today",
-        content: "Don't let fender damage diminish your vehicle's appearance and value. Whether you're dealing with a fresh parking lot ding or damage from a minor collision, Dent Master Franchise in Orlando has the expertise to restore your fender to perfect condition. We offer free estimates, competitive pricing, and the convenience of mobile service throughout Central Florida. Our Spanish-speaking support team is available to assist you — Hablamos Español. Contact us today to schedule your fender repair or get an instant quote through our online form. With Dent Master Franchise, your vehicle is in the best hands in Orlando."
+        content: "Don't let fender damage diminish your vehicle's appearance and value. Whether you're dealing with a fresh parking lot ding or damage from a minor collision, Dent Master Franchise in Orlando has the expertise to restore your fender to perfect condition. We offer free estimates, competitive pricing, and convenient service throughout Central Florida. Our Spanish-speaking support team is available to assist you — Hablamos Español. Contact us today to schedule your fender repair or get an instant quote through our online form. With Dent Master Franchise, your vehicle is in the best hands in Orlando."
       }
     ],
     faqs: [
@@ -220,7 +220,7 @@ export const services: ServiceData[] = [
       { q: "How long does a fender repair take?", a: "Most fender repairs are completed in 1-3 hours. More extensive damage may take longer, but we'll provide an accurate time estimate during assessment." },
       { q: "Will the fender repair match the rest of my car?", a: "Absolutely. Because PDR preserves your factory paint, the repaired area is indistinguishable from the rest of your vehicle. There's no repainting, so there's no color match concern." },
       { q: "Can you repair fenders on any vehicle make or model?", a: "Yes, we repair fenders on all makes and models, from compact cars to trucks and SUVs. Our technicians are experienced with the full range of vehicle types." },
-      { q: "Do you offer mobile fender repair service?", a: "Yes, we offer mobile fender repair throughout the Orlando metropolitan area. We can come to your home, office, or any convenient location." },
+      { q: "Do you offer fender repair throughout Orlando?", a: "Yes, we offer fender repair throughout the Orlando metropolitan area. Contact us to schedule at a convenient time." },
       { q: "Is fender repair covered by insurance?", a: "Fender damage is typically covered by collision insurance. We work directly with insurance companies and can help you file and manage your claim." }
     ]
   }

@@ -23,15 +23,15 @@ const cityBase = (city: string, slug: string): CityData => {
     sections: [
       {
         heading: `Why ${city} Drivers Choose Dent Master Franchise`,
-        content: `${city} residents deserve a dent repair service that combines expert craftsmanship with honest pricing and outstanding customer care. Dent Master Franchise has built our reputation in the Central Florida community by consistently delivering superior paintless dent repair results. Our certified technicians bring years of experience to every job, using the latest PDR tools and techniques to remove dents of all sizes. We understand the unique challenges that ${city} drivers face — from crowded shopping center parking lots to Florida's unpredictable weather. That's why we offer both in-shop and mobile service throughout ${city} and the surrounding area, making dent repair as convenient as possible. Hablamos Español — our Spanish-speaking support is available for all ${city} customers.`
+        content: `${city} residents deserve a dent repair service that combines expert craftsmanship with honest pricing and outstanding customer care. Dent Master Franchise has built our reputation in the Central Florida community by consistently delivering superior paintless dent repair results. Our certified technicians bring years of experience to every job, using the latest PDR tools and techniques to remove dents of all sizes. We understand the unique challenges that ${city} drivers face — from crowded shopping center parking lots to Florida's unpredictable weather. That's why we offer convenient scheduling and service throughout ${city} and the surrounding area, making dent repair as easy as possible. Hablamos Español — our Spanish-speaking support is available for all ${city} customers.`
       },
       {
         heading: `Our PDR Services Available in ${cs}`,
         content: `Dent Master Franchise offers a comprehensive range of paintless dent repair services to ${city} residents and businesses. Our services include paintless dent repair for everyday door dings and parking lot dents, hail damage repair for storm-damaged vehicles, minor dent and ding removal for quick fixes, PDR-based collision repair for minor accident damage, and fender repair for one of the most commonly damaged vehicle panels. Each service uses the same proven PDR methodology — working from behind the panel to reshape the metal without disturbing your factory paint finish. This approach saves you time, saves you money, and preserves your vehicle's value.`
       },
       {
-        heading: `Mobile PDR Service Throughout ${city}`,
-        content: `We know that taking time out of your busy schedule to visit a repair shop isn't always convenient. That's why Dent Master Franchise offers mobile paintless dent repair service throughout ${city} and the greater Central Florida area. Our mobile technicians bring all the tools and equipment needed to perform professional PDR repairs directly at your home, workplace, or any other convenient location. Mobile service is available for most types of dent repair, including door dings, minor collision damage, and small to medium hail damage. Simply schedule an appointment, and we'll come to you. It's dent repair on your terms, on your schedule.`
+        heading: `Convenient PDR Service Throughout ${city}`,
+        content: `We know that taking time out of your busy schedule to visit a repair shop isn't always convenient. That's why Dent Master Franchise offers flexible scheduling and convenient PDR service throughout ${city} and the greater Central Florida area. Our technicians bring all the tools and equipment needed to perform professional PDR repairs. Service is available for most types of dent repair, including door dings, minor collision damage, and small to medium hail damage. Simply schedule an appointment and we'll take care of the rest. It's dent repair on your terms, on your schedule.`
       },
       {
         heading: `Dealership and Fleet Services in ${city}`,
@@ -48,7 +48,7 @@ const cityBase = (city: string, slug: string): CityData => {
     ],
     faqs: [
       { q: `How much does paintless dent repair cost in ${city}?`, a: `Costs vary by dent size, depth, and location. Small door dings start at $75-$150. Contact Dent Master Franchise for a free, no-obligation estimate for your specific damage.` },
-      { q: `Do you offer mobile PDR service in ${city}?`, a: `Yes! We provide mobile paintless dent repair throughout ${city} and the surrounding area. We'll come to your home, office, or any convenient location.` },
+      { q: `Do you offer PDR service in ${city}?`, a: `Yes! We provide paintless dent repair throughout ${city} and the surrounding area. Contact us to schedule at a convenient time.` },
       { q: `How long does PDR take?`, a: `Most single-dent repairs take 30-90 minutes. Multiple dents or hail damage may take 1-5 days. We'll give you an accurate timeline before starting.` },
       { q: `Will PDR damage my vehicle's paint?`, a: `No. PDR is specifically designed to preserve your factory paint finish. We work from behind the panel to reshape the metal without touching the painted surface.` },
       { q: `Do you work with insurance companies?`, a: `Yes, we work directly with all major insurance providers. We handle claims documentation and can communicate with your insurer on your behalf.` },

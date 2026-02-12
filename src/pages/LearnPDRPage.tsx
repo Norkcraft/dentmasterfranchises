@@ -13,7 +13,7 @@ import { BookOpen, Wrench, Award, Target } from "lucide-react";
 const faqs = [
   { q: "Do I need prior experience for PDR training?", a: "No! Our training program is designed for total beginners as well as intermediate technicians." },
   { q: "What does the training include?", a: "Hands-on training covers PDR fundamentals, tool usage, damage assessment, repair techniques, and business basics." },
-  { q: "Where is training held?", a: "Training is conducted in-person at our Orlando, FL facility with real vehicles." },
+  { q: "Where is training held?", a: "Training is conducted in-person at our Orlando, FL facility." },
   { q: "Which training option should I choose?", a: "Daily for introductions, weekly for solid foundations, monthly for comprehensive career-ready preparation." },
   { q: "What tools do I need?", a: "All tools and materials are provided during training." },
   { q: "Can I start working after training?", a: "Many graduates begin working independently after completing our program." },
@@ -27,7 +27,7 @@ export default function LearnPDRPage() {
 
   const features = [
     { icon: BookOpen, title: t("Expert Instruction", "Instrucción Experta"), desc: t("Learn from PDR professionals with thousands of repairs.", "Aprenda de profesionales con miles de reparaciones.") },
-    { icon: Wrench, title: t("Hands-On Practice", "Práctica Real"), desc: t("Work on real vehicles with professional-grade tools.", "Trabaje en vehículos reales con herramientas profesionales.") },
+    { icon: Wrench, title: t("Hands-On Practice", "Práctica Real"), desc: t("Practice with professional-grade PDR tools and techniques.", "Practique con herramientas y técnicas profesionales de PDR.") },
     { icon: Target, title: t("All Skill Levels", "Todos los Niveles"), desc: t("Programs for total beginners and intermediate technicians.", "Programas para principiantes e intermedios.") },
     { icon: Award, title: t("Career Ready", "Listo para Trabajar"), desc: t("Graduate with skills and confidence to start earning.", "Gradúese con habilidades para comenzar a ganar.") },
   ];
@@ -84,7 +84,7 @@ export default function LearnPDRPage() {
               {t("Professional PDR Training Program", "Programa Profesional de Entrenamiento PDR")}
             </h2>
             <p className="text-foreground/80 leading-relaxed">
-              {t("Dent Master Franchise offers comprehensive, hands-on paintless dent repair training for aspiring technicians at every skill level. Our training takes place in-person at our Orlando, FL facility, using real vehicles and professional-grade PDR tools.", "Dent Master Franchise ofrece entrenamiento integral y práctico en reparación de abolladuras sin pintura para técnicos aspirantes de todos los niveles.")}
+              {t("Dent Master Franchise offers comprehensive, hands-on paintless dent repair training for aspiring technicians at every skill level. Our training takes place in-person at our Orlando, FL facility with professional-grade PDR tools and expert instruction.", "Dent Master Franchise ofrece entrenamiento integral y práctico en reparación de abolladuras sin pintura para técnicos aspirantes de todos los niveles. Nuestro entrenamiento es presencial en Orlando, FL con herramientas profesionales.")}
             </p>
           </div>
 
@@ -97,7 +97,7 @@ export default function LearnPDRPage() {
                 <p className="text-sm text-muted-foreground mb-6">{tier.unit}</p>
                 <ul className="text-sm text-foreground/80 space-y-2 mb-6 text-left">
                   <li>✓ {t("Hands-on instruction", "Instrucción práctica")}</li>
-                  <li>✓ {t("Real vehicle practice", "Práctica con vehículos reales")}</li>
+                  <li>✓ {t("Guided practice sessions", "Sesiones de práctica guiada")}</li>
                   <li>✓ {t("Professional tools provided", "Herramientas profesionales incluidas")}</li>
                   <li>✓ {t("Beginner & intermediate levels", "Niveles principiante e intermedio")}</li>
                 </ul>
