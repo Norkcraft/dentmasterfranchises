@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Shield, Clock, Award, Star, ChevronRight, Wrench, Zap, Car, MapPin, Play } from "lucide-react";
+import { Shield, Clock, Award, Star, ChevronRight, Wrench, Zap, Car, MapPin } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SEOHead from "@/components/SEOHead";
 import { LocalBusinessJsonLd, FAQJsonLd } from "@/components/JsonLd";
-import ReviewCard from "@/components/ReviewCard";
+import ReviewsCarousel from "@/components/ReviewsCarousel";
 import FAQSection from "@/components/FAQSection";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import QuoteForm from "@/components/QuoteForm";
+import TrainingForm from "@/components/TrainingForm";
+import VideoAssistant from "@/components/VideoAssistant";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { reviews } from "@/data/reviews";
 import { BUSINESS, DEALER_DISCOUNT_TEXT } from "@/data/constants";
 import { services } from "@/data/services";
 import { cities } from "@/data/cities";
@@ -41,7 +42,6 @@ export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const servicesRef = useScrollReveal<HTMLDivElement>({ childSelector: ".service-card", stagger: 0.1, y: 30 });
   const baRef = useScrollReveal<HTMLDivElement>({ childSelector: ".ba-card", stagger: 0.15, y: 40 });
-  const reviewsRef = useScrollReveal<HTMLDivElement>({ childSelector: ".review-card-wrap", stagger: 0.1, y: 30 });
   const citiesRef = useScrollReveal<HTMLDivElement>({ childSelector: ".city-card", stagger: 0.05, y: 20, scale: 0.95 });
   const counterRef = useScrollReveal<HTMLDivElement>({ childSelector: ".counter-item", stagger: 0.15, y: 30 });
   const dealerRef = useScrollReveal<HTMLDivElement>({ y: 40, scale: 0.97 });
@@ -50,6 +50,7 @@ export default function HomePage() {
   const { t } = useLanguage();
 
   const [videoChoice, setVideoChoice] = useState<null | "quote" | "training">(null);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -58,6 +59,11 @@ export default function HomePage() {
     gsap.set(els, { opacity: 0, y: 30 });
     gsap.to(els, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power3.out", delay: 0.2 });
   }, []);
+
+  const handleVideoChoice = (choice: "quote" | "training") => {
+    setVideoChoice(choice);
+    setShowForm(true);
+  };
 
   return (
     <>
@@ -69,7 +75,7 @@ export default function HomePage() {
       <LocalBusinessJsonLd />
       <FAQJsonLd faqs={homeFaqs} />
 
-      {/* ===== HERO — DentTime style: dark overlay + form on right ===== */}
+      {/* ===== HERO ===== */}
       <section className="relative overflow-hidden min-h-[650px] flex items-center">
         <div className="absolute inset-0">
           <img src={heroImg} alt="Professional paintless dent repair workshop in Orlando, FL" className="w-full h-full object-cover" />
@@ -77,7 +83,6 @@ export default function HomePage() {
         </div>
         <div className="section-container relative z-10 py-16 md:py-24" ref={heroRef}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left — headline & CTAs */}
             <div>
               <span className="hero-anim highlight-badge mb-4 inline-block">
                 🏆 {t("Orlando's #1 PDR Specialist", "Especialista #1 en PDR de Orlando")}
@@ -110,7 +115,7 @@ export default function HomePage() {
 
             {/* Right — Quote Form */}
             <div className="hero-anim">
-              <div className="bg-white rounded-xl p-6 shadow-2xl">
+              <div className="bg-card rounded-xl p-6 shadow-2xl shadow-black/40 border border-border">
                 <h2 className="text-xl font-bold text-foreground mb-1 font-heading">
                   {t("Get Your Free Estimate", "Obtenga su Cotización Gratis")}
                 </h2>
@@ -125,7 +130,7 @@ export default function HomePage() {
       </section>
 
       {/* Trust Strip */}
-      <section className="bg-surface border-b border-border">
+      <section className="bg-secondary border-b border-border">
         <div className="section-container py-5 flex flex-wrap items-center justify-center gap-6 md:gap-10">
           <div className="flex items-center gap-1.5">
             {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-primary text-primary" />)}
@@ -148,7 +153,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats */}
-      <section className="section-padding bg-[hsl(0_0%_8%)]">
+      <section className="section-padding bg-charcoal">
         <div className="section-container" ref={counterRef}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="counter-item text-center"><AnimatedCounter end={5000} suffix="+" label={t("Dents Repaired", "Abolladuras Reparadas")} /></div>
@@ -159,83 +164,59 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Video Assistant Section */}
+      {/* Video Assistant Section — Portrait layout */}
       <section className="section-padding bg-background">
         <div className="section-container">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-heading uppercase">
-              {t("How Can We Help You?", "¿Cómo Podemos Ayudarte?")}
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {t("Watch a quick intro, then choose your path below.", "Mire una introducción rápida y elija su opción abajo.")}
-            </p>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left — headline + trust */}
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-heading uppercase">
+                {t("How Can We Help You?", "¿Cómo Podemos Ayudarte?")}
+              </h2>
+              <p className="text-muted-foreground text-lg mb-8">
+                {t(
+                  "Watch a quick intro, then choose your path. Whether you need dent repair or want to learn PDR, we've got you covered.",
+                  "Mire una introducción rápida y elija su camino. Ya sea que necesite reparación o quiera aprender PDR, estamos aquí para ayudar."
+                )}
+              </p>
+              <ul className="space-y-4 mb-8">
+                {[
+                  t("✓ Free estimates within minutes", "✓ Presupuestos gratis en minutos"),
+                  t("✓ Mobile service to your location", "✓ Servicio móvil a su ubicación"),
+                  t("✓ Hands-on PDR training available", "✓ Entrenamiento práctico disponible"),
+                  t("✓ Hablamos Español", "✓ Hablamos Español"),
+                ].map((item) => (
+                  <li key={item} className="text-foreground font-medium">{item}</li>
+                ))}
+              </ul>
 
-          <div className="max-w-3xl mx-auto">
-            {/* Video embed */}
-            <div className="relative aspect-video rounded-xl overflow-hidden bg-charcoal mb-8 shadow-2xl">
-              <iframe
-                src={
-                  videoChoice === "quote"
-                    ? "https://player.vimeo.com/video/1164392384?autoplay=1&title=0&byline=0&portrait=0"
-                    : videoChoice === "training"
-                    ? "https://player.vimeo.com/video/1164392428?autoplay=1&title=0&byline=0&portrait=0"
-                    : "https://player.vimeo.com/video/1164392249?title=0&byline=0&portrait=0"
-                }
-                className="absolute inset-0 w-full h-full"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-                title="Dent Master Introduction"
-              />
+              {/* Form appears here after video choice */}
+              {showForm && (
+                <div className="animate-fade-up">
+                  <div className="bg-card rounded-xl p-6 border border-border shadow-xl shadow-black/20">
+                    <h3 className="text-lg font-bold text-foreground mb-4 font-heading">
+                      {videoChoice === "quote"
+                        ? t("Get Your Free Estimate", "Obtenga su Cotización")
+                        : t("Start Your PDR Training", "Comience su Entrenamiento")}
+                    </h3>
+                    {videoChoice === "quote" ? <QuoteForm compact /> : <TrainingForm />}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Branching choices */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button
-                onClick={() => setVideoChoice("quote")}
-                className={`card-elevated text-center py-6 hover:shadow-xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 cursor-pointer ${videoChoice === "quote" ? "ring-2 ring-primary border-primary" : ""}`}
-              >
-                <Wrench className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-foreground font-heading mb-1">
-                  {t("I Need a Dent Repaired", "Necesito Reparar una Abolladura")}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {t("Get a free estimate for PDR service", "Obtenga un presupuesto gratis")}
-                </p>
-              </button>
-              <button
-                onClick={() => setVideoChoice("training")}
-                className={`card-elevated text-center py-6 hover:shadow-xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 cursor-pointer ${videoChoice === "training" ? "ring-2 ring-primary border-primary" : ""}`}
-              >
-                <Award className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-foreground font-heading mb-1">
-                  {t("I Want to Learn PDR", "Quiero Aprender PDR")}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {t("Explore our hands-on training program", "Explore nuestro programa de entrenamiento")}
-                </p>
-              </button>
-            </div>
-
-            {/* CTA after choice */}
-            {videoChoice && (
-              <div className="text-center mt-6 animate-fade-up">
-                <Link
-                  to={videoChoice === "quote" ? "/contact" : "/learn-pdr"}
-                  className="btn-hero-primary uppercase tracking-wider"
-                >
-                  {videoChoice === "quote"
-                    ? t("Get My Free Estimate →", "Obtener Mi Cotización →")
-                    : t("Start My Training Journey →", "Comenzar Mi Entrenamiento →")}
-                </Link>
+            {/* Right — Portrait video card */}
+            <div className="flex justify-center">
+              <div className="w-full max-w-[340px]">
+                <VideoAssistant onChoose={handleVideoChoice} />
               </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Services Preview */}
-      <section className="section-padding bg-muted">
+      <section className="section-padding bg-secondary">
         <div className="section-container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-heading uppercase">
@@ -284,7 +265,7 @@ export default function HomePage() {
                 <div className="grid grid-cols-2 overflow-hidden">
                   <div className="relative overflow-hidden">
                     <img src={item.before} alt={`Before ${item.label}`} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <span className="absolute bottom-2 left-2 bg-charcoal/80 text-white text-xs px-2 py-1 rounded">{t("Before", "Antes")}</span>
+                    <span className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">{t("Before", "Antes")}</span>
                   </div>
                   <div className="relative overflow-hidden">
                     <img src={item.after} alt={`After ${item.label}`} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -304,7 +285,7 @@ export default function HomePage() {
       </section>
 
       {/* Dealer Discount */}
-      <section className="section-padding bg-[hsl(0_0%_8%)]">
+      <section className="section-padding bg-charcoal">
         <div className="section-container">
           <div className="max-w-4xl mx-auto text-center" ref={dealerRef}>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-heading uppercase">
@@ -316,10 +297,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Learn PDR Teaser (small, not pricing) */}
-      <section className="section-padding bg-muted">
+      {/* Learn PDR Teaser */}
+      <section className="section-padding bg-secondary">
         <div className="section-container">
-          <div className="max-w-4xl mx-auto bg-card rounded-2xl p-8 md:p-12 text-center border border-border shadow-lg">
+          <div className="max-w-4xl mx-auto bg-card rounded-2xl p-8 md:p-12 text-center border border-border shadow-lg shadow-black/20">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 font-heading uppercase">
               {t("Want to Learn Paintless Dent Repair?", "¿Quieres Aprender PDR?")}
             </h2>
@@ -333,7 +314,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Reviews */}
+      {/* Reviews Carousel */}
       <section className="section-padding bg-background">
         <div className="section-container">
           <div className="text-center mb-12">
@@ -342,12 +323,8 @@ export default function HomePage() {
             </h2>
             <p className="text-muted-foreground">{t("Real reviews from real customers across Central Florida.", "Reseñas reales de clientes en toda la Florida Central.")}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" ref={reviewsRef}>
-            {reviews.slice(0, 6).map((r) => (
-              <div key={r.name} className="review-card-wrap">
-                <ReviewCard {...r} />
-              </div>
-            ))}
+          <div className="max-w-5xl mx-auto px-8">
+            <ReviewsCarousel />
           </div>
           <div className="text-center mt-8 flex flex-wrap justify-center gap-4">
             <a href={BUSINESS.googleMaps} target="_blank" rel="noopener noreferrer" className="btn-primary">{t("View Google Reviews", "Ver Reseñas en Google")}</a>
@@ -357,7 +334,7 @@ export default function HomePage() {
       </section>
 
       {/* Service Areas */}
-      <section className="section-padding bg-muted">
+      <section className="section-padding bg-secondary">
         <div className="section-container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-heading uppercase">
