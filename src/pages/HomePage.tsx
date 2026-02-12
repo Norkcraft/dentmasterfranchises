@@ -31,7 +31,7 @@ const topCities = cities.slice(0, 6);
 
 const homeFaqsEn = [
   { q: "How much does paintless dent repair cost in Orlando?", a: "Costs vary by dent size and location. Small door dings start at $75-$150. Contact us for a free, no-obligation estimate." },
-  { q: "Do you offer mobile dent repair service?", a: "Yes! We provide mobile PDR throughout Orlando and Central Florida. We come to your home, office, or dealership." },
+  { q: "Do you offer on-site dent repair service?", a: "Yes! We provide PDR throughout Orlando and Central Florida. We come to your home, office, or dealership." },
   { q: "How long does PDR take?", a: "Most single-dent repairs take 30-90 minutes. Hail damage or multiple dents may take 1-5 days." },
   { q: "Do you work with insurance companies?", a: "Yes, we work with all major insurance providers and can help you file and manage your claim." },
   { q: "Is paintless dent repair permanent?", a: "Absolutely. PDR restores the metal to its original shape permanently. There's no filler to crack or shrink." },
@@ -40,7 +40,7 @@ const homeFaqsEn = [
 
 const homeFaqsEs = [
   { q: "¿Cuánto cuesta la reparación de abolladuras sin pintura en Orlando?", a: "Los costos varían según el tamaño y la ubicación de la abolladura. Las pequeñas comienzan en $75-$150. Contáctenos para un presupuesto gratis." },
-  { q: "¿Ofrecen servicio móvil de reparación?", a: "¡Sí! Brindamos PDR móvil en todo Orlando y Florida Central. Vamos a su hogar, oficina o concesionario." },
+  { q: "¿Ofrecen servicio de reparación a domicilio?", a: "¡Sí! Brindamos PDR en todo Orlando y Florida Central. Vamos a su hogar, oficina o concesionario." },
   { q: "¿Cuánto tiempo toma el PDR?", a: "La mayoría de las reparaciones de una sola abolladura toman 30-90 minutos. Daño por granizo puede tomar 1-5 días." },
   { q: "¿Trabajan con compañías de seguros?", a: "Sí, trabajamos con todos los principales proveedores de seguros y podemos ayudarle a presentar y gestionar su reclamo." },
   { q: "¿La reparación sin pintura es permanente?", a: "Absolutamente. El PDR restaura el metal a su forma original de manera permanente. No hay relleno que se agriete." },
@@ -191,7 +191,7 @@ export default function HomePage() {
               <ul className="space-y-4 mb-8">
                 {[
                   t("✓ Free estimates within minutes", "✓ Presupuestos gratis en minutos"),
-                  t("✓ Mobile service to your location", "✓ Servicio móvil a su ubicación"),
+                  t("✓ We come to your location", "✓ Vamos a su ubicación"),
                   t("✓ Hands-on PDR training available", "✓ Entrenamiento práctico disponible"),
                   t("✓ Hablamos Español", "✓ Hablamos Español"),
                 ].map((item) => (
