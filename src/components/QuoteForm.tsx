@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Send, ArrowRight, ArrowLeft, CheckCircle, Loader2 } from "lucide-react";
+import { Send, ArrowRight, ArrowLeft, CheckCircle, Loader2, Upload, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { submitForm } from "@/lib/submitForm";
+import { submitForm, fileToBase64 } from "@/lib/submitForm";
 
 interface QuoteFormProps {
   compact?: boolean;
@@ -17,27 +17,78 @@ export default function QuoteForm({ compact }: QuoteFormProps) {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const [photos, setPhotos] = useState<File[]>([]);
   const [form, setForm] = useState({
-    name: "", phone: "", email: "", city: "", make: "", model: "",
-    damageType: "", description: "",
+    fullName: "", phone: "", email: "", city: "",
+    vehicleYear: "", vehicleMake: "", vehicleModel: "",
+    damageType: "", damageDescription: "",
   });
 
-  const steps = [
-    { label: t("Name", "Nombre"), field: "name", placeholder: t("Your full name", "Su nombre completo"), type: "text" },
-    { label: t("Phone", "Teléfono"), field: "phone", placeholder: "+1 (___) ___-____", type: "tel" },
-    { label: t("Email", "Correo"), field: "email", placeholder: "you@email.com", type: "email" },
-    { label: t("City", "Ciudad"), field: "city", placeholder: t("e.g. Orlando, FL", "ej. Orlando, FL"), type: "text" },
-    { label: t("Vehicle Make", "Marca del Vehículo"), field: "make", placeholder: t("e.g. Toyota", "ej. Toyota"), type: "text" },
-    { label: t("Vehicle Model", "Modelo del Vehículo"), field: "model", placeholder: t("e.g. Camry", "ej. Camry"), type: "text" },
-    { label: t("Damage Type", "Tipo de Daño"), field: "damageType", type: "select" },
-    { label: t("Damage Description", "Descripción del Daño"), field: "description", placeholder: t("Describe the damage...", "Describa el daño..."), type: "textarea" },
-  ];
+  const [stepErrors, setStepErrors] = useState<Record<string, string>>({});
+
+  const validateStep = (s: number): boolean => {
+    const errs: Record<string, string> = {};
+    if (s === 0) {
+      if (!form.fullName.trim()) errs.fullName = t("Name is required", "El nombre es obligatorio");
+      if (!form.phone.trim()) errs.phone = t("Phone is required", "El teléfono es obligatorio");
+      if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) errs.email = t("Valid email is required", "Se requiere un correo válido");
+    } else if (s === 1) {
+      if (!form.city.trim()) errs.city = t("City is required", "La ciudad es obligatoria");
+      if (!form.vehicleYear.trim()) errs.vehicleYear = t("Year is required", "El año es obligatorio");
+      if (!form.vehicleMake.trim()) errs.vehicleMake = t("Make is required", "La marca es obligatoria");
+      if (!form.vehicleModel.trim()) errs.vehicleModel = t("Model is required", "El modelo es obligatorio");
+    } else if (s === 2) {
+      if (!form.damageType) errs.damageType = t("Select damage type", "Seleccione el tipo de daño");
+      if (!form.damageDescription.trim()) errs.damageDescription = t("Describe the damage", "Describa el daño");
+    }
+    setStepErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
+  const nextStep = () => { if (validateStep(step)) setStep(step + 1); };
+  const prevStep = () => { setStepErrors({}); setStep(step - 1); };
+
+  const handlePhotoAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setPhotos(prev => [...prev, ...Array.from(e.target.files!)].slice(0, 5));
+  };
+  const removePhoto = (i: number) => setPhotos(prev => prev.filter((_, idx) => idx !== i));
 
   const handleSubmit = async () => {
+    if (!validateStep(2)) return;
     setSending(true);
-    await submitForm({ ...form, formType: "quote", lang });
-    setSending(false);
-    setSubmitted(true);
+    setError("");
+    try {
+      const photoData: string[] = [];
+      for (const p of photos) {
+        photoData.push(await fileToBase64(p));
+      }
+      const payload: Record<string, string | string[]> = {
+        formType: "quote",
+        fullName: form.fullName,
+        phone: form.phone,
+        email: form.email,
+        city: form.city,
+        vehicleYear: form.vehicleYear,
+        vehicleMake: form.vehicleMake,
+        vehicleModel: form.vehicleModel,
+        damageType: form.damageType,
+        damageDescription: form.damageDescription,
+        lang,
+      };
+      if (photoData.length > 0) (payload as Record<string, unknown>).photos = photoData;
+      const res = await submitForm(payload as Record<string, string>);
+      if (!res.ok) {
+        setError(t("Submission failed. Please try again or call us directly.", "Error al enviar. Intente de nuevo o llámenos directamente."));
+        setSending(false);
+        return;
+      }
+      setSending(false);
+      setSubmitted(true);
+    } catch {
+      setError(t("Submission failed. Please try again or call us directly.", "Error al enviar. Intente de nuevo o llámenos directamente."));
+      setSending(false);
+    }
   };
 
   if (submitted) {
@@ -54,68 +105,147 @@ export default function QuoteForm({ compact }: QuoteFormProps) {
     );
   }
 
-  const currentStep = steps[step];
-  const val = form[currentStep.field as keyof typeof form];
+  const inputCls = "w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary";
+  const errCls = "text-xs text-destructive mt-1";
   const types = lang === "es" ? damageTypes.es : damageTypes.en;
+
+  const stepLabels = [
+    t("Contact Information", "Información de Contacto"),
+    t("Vehicle & Location", "Vehículo y Ubicación"),
+    t("Damage & Photos", "Daño y Fotos"),
+  ];
 
   return (
     <div className={compact ? "" : "card-elevated max-w-lg mx-auto"}>
-      <div className="flex gap-1 mb-6">
-        {steps.map((_, i) => (
+      {/* Progress */}
+      <div className="flex gap-1 mb-4">
+        {[0, 1, 2].map((i) => (
           <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= step ? "bg-primary" : "bg-border"}`} />
         ))}
       </div>
-
-      <p className="text-xs text-muted-foreground mb-2">
-        {t(`Step ${step + 1} of ${steps.length}`, `Paso ${step + 1} de ${steps.length}`)}
+      <p className="text-xs text-muted-foreground mb-1">
+        {t(`Step ${step + 1} of 3`, `Paso ${step + 1} de 3`)}
       </p>
-      <label className="block text-lg font-bold text-foreground mb-4 font-heading">{currentStep.label}</label>
+      <h3 className="text-lg font-bold text-foreground mb-4 font-heading">{stepLabels[step]}</h3>
 
-      {currentStep.type === "select" ? (
-        <div className="grid grid-cols-2 gap-2 mb-6">
-          {types.map((typeName, idx) => {
-            const enVal = damageTypes.en[idx];
-            return (
-              <button
-                key={enVal}
-                onClick={() => setForm({ ...form, damageType: enVal })}
-                className={`px-4 py-3 rounded-lg border text-sm font-medium transition-colors ${form.damageType === enVal ? "bg-primary text-primary-foreground border-primary" : "border-border text-foreground hover:border-primary"}`}
-              >
-                {typeName}
-              </button>
-            );
-          })}
+      {/* Step 1: Contact */}
+      {step === 0 && (
+        <div className="space-y-3 mb-6">
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Full Name", "Nombre Completo")} *</label>
+            <input type="text" value={form.fullName} onChange={e => setForm({ ...form, fullName: e.target.value })} placeholder={t("Your full name", "Su nombre completo")} className={inputCls} />
+            {stepErrors.fullName && <p className={errCls}>{stepErrors.fullName}</p>}
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Phone", "Teléfono")} *</label>
+            <input type="tel" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} placeholder="+1 (___) ___-____" className={inputCls} />
+            {stepErrors.phone && <p className={errCls}>{stepErrors.phone}</p>}
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Email", "Correo Electrónico")} *</label>
+            <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="you@email.com" className={inputCls} />
+            {stepErrors.email && <p className={errCls}>{stepErrors.email}</p>}
+          </div>
         </div>
-      ) : currentStep.type === "textarea" ? (
-        <textarea
-          value={val}
-          onChange={(e) => setForm({ ...form, [currentStep.field]: e.target.value })}
-          placeholder={currentStep.placeholder}
-          rows={3}
-          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mb-6"
-        />
-      ) : (
-        <input
-          type={currentStep.type}
-          value={val}
-          onChange={(e) => setForm({ ...form, [currentStep.field]: e.target.value })}
-          placeholder={currentStep.placeholder}
-          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mb-6"
-        />
       )}
 
+      {/* Step 2: Vehicle + Location */}
+      {step === 1 && (
+        <div className="space-y-3 mb-6">
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("City", "Ciudad")} *</label>
+            <input type="text" value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} placeholder={t("e.g. Orlando, FL", "ej. Orlando, FL")} className={inputCls} />
+            {stepErrors.city && <p className={errCls}>{stepErrors.city}</p>}
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Vehicle Year", "Año del Vehículo")} *</label>
+            <input type="text" value={form.vehicleYear} onChange={e => setForm({ ...form, vehicleYear: e.target.value })} placeholder={t("e.g. 2022", "ej. 2022")} className={inputCls} />
+            {stepErrors.vehicleYear && <p className={errCls}>{stepErrors.vehicleYear}</p>}
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Vehicle Make", "Marca del Vehículo")} *</label>
+            <input type="text" value={form.vehicleMake} onChange={e => setForm({ ...form, vehicleMake: e.target.value })} placeholder={t("e.g. Toyota", "ej. Toyota")} className={inputCls} />
+            {stepErrors.vehicleMake && <p className={errCls}>{stepErrors.vehicleMake}</p>}
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Vehicle Model", "Modelo del Vehículo")} *</label>
+            <input type="text" value={form.vehicleModel} onChange={e => setForm({ ...form, vehicleModel: e.target.value })} placeholder={t("e.g. Camry", "ej. Camry")} className={inputCls} />
+            {stepErrors.vehicleModel && <p className={errCls}>{stepErrors.vehicleModel}</p>}
+          </div>
+        </div>
+      )}
+
+      {/* Step 3: Damage + Upload */}
+      {step === 2 && (
+        <div className="space-y-3 mb-6">
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Damage Type", "Tipo de Daño")} *</label>
+            <div className="grid grid-cols-2 gap-2">
+              {types.map((typeName, idx) => {
+                const enVal = damageTypes.en[idx];
+                return (
+                  <button
+                    key={enVal}
+                    type="button"
+                    onClick={() => { setForm({ ...form, damageType: enVal }); setStepErrors(e => { const n = { ...e }; delete n.damageType; return n; }); }}
+                    className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors ${form.damageType === enVal ? "bg-primary text-primary-foreground border-primary" : "border-border text-foreground hover:border-primary"}`}
+                  >
+                    {typeName}
+                  </button>
+                );
+              })}
+            </div>
+            {stepErrors.damageType && <p className={errCls}>{stepErrors.damageType}</p>}
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Damage Description", "Descripción del Daño")} *</label>
+            <textarea
+              value={form.damageDescription}
+              onChange={e => setForm({ ...form, damageDescription: e.target.value })}
+              placeholder={t("Describe the damage...", "Describa el daño...")}
+              rows={3}
+              className={inputCls}
+            />
+            {stepErrors.damageDescription && <p className={errCls}>{stepErrors.damageDescription}</p>}
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Photos (optional, up to 5)", "Fotos (opcional, hasta 5)")}</label>
+            <label className="flex items-center gap-2 cursor-pointer rounded-lg border border-dashed border-border px-4 py-3 text-sm text-muted-foreground hover:border-primary transition-colors">
+              <Upload className="w-4 h-4" />
+              {t("Upload Photos", "Subir Fotos")}
+              <input type="file" accept="image/*" multiple onChange={handlePhotoAdd} className="hidden" />
+            </label>
+            {photos.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {photos.map((p, i) => (
+                  <div key={i} className="relative">
+                    <img src={URL.createObjectURL(p)} alt="" className="w-16 h-16 rounded-lg object-cover border border-border" />
+                    <button type="button" onClick={() => removePhoto(i)} className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {error && <p className="text-sm text-destructive mb-4">{error}</p>}
+
+      {/* Navigation */}
       <div className="flex justify-between gap-3">
         {step > 0 && (
-          <button onClick={() => setStep(step - 1)} className="btn-secondary text-sm">
+          <button type="button" onClick={prevStep} className="btn-secondary text-sm">
             <ArrowLeft className="w-4 h-4" /> {t("Back", "Atrás")}
           </button>
         )}
-        {step < steps.length - 1 ? (
-          <button onClick={() => setStep(step + 1)} className="btn-primary text-sm ml-auto">
+        {step < 2 ? (
+          <button type="button" onClick={nextStep} className="btn-primary text-sm ml-auto">
             {t("Next", "Siguiente")} <ArrowRight className="w-4 h-4" />
           </button>
         ) : (
-          <button onClick={handleSubmit} disabled={sending} className="btn-primary text-sm ml-auto">
+          <button type="button" onClick={handleSubmit} disabled={sending} className="btn-primary text-sm ml-auto">
             {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             {t("Get Instant Quote", "Cotización Gratis")}
           </button>

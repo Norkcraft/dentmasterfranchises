@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import SEOHead from "@/components/SEOHead";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { services } from "@/data/services";
 import { Wrench, Zap, Car, Shield, ChevronRight } from "lucide-react";
 
@@ -11,6 +12,7 @@ const icons = [Wrench, Zap, Car, Shield, Wrench];
 export default function ServicesPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const gridRef = useScrollReveal<HTMLDivElement>({ childSelector: ".service-card", stagger: 0.1, y: 30, scale: 0.95 });
+  const { t } = useLanguage();
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -23,15 +25,19 @@ export default function ServicesPage() {
   return (
     <>
       <SEOHead
-        title="Premier PDR Services Orlando, FL | Dent Master Franchise"
-        description="Explore all paintless dent repair services from Dent Master Franchise in Orlando, FL. Hail damage, dent removal, collision repair, and more."
+        title={t("Premier PDR Services Orlando, FL | Dent Master Franchise", "Servicios PDR Premier Orlando, FL | Dent Master Franchise")}
+        description={t("Explore all paintless dent repair services from Dent Master Franchise in Orlando, FL.", "Explore todos los servicios de reparación sin pintura de Dent Master Franchise en Orlando, FL.")}
         path="/services"
       />
 
       <section className="bg-charcoal">
         <div className="section-container py-16 md:py-24" ref={heroRef}>
-          <h1 className="hero-anim text-3xl md:text-5xl font-bold text-white mb-4 font-heading">Our PDR Services</h1>
-          <p className="hero-anim text-lg text-white/70 max-w-2xl">Comprehensive paintless dent repair solutions for every type of vehicle damage.</p>
+          <h1 className="hero-anim text-3xl md:text-5xl font-bold text-white mb-4 font-heading">
+            {t("Our PDR Services", "Nuestros Servicios PDR")}
+          </h1>
+          <p className="hero-anim text-lg text-white/70 max-w-2xl">
+            {t("Comprehensive paintless dent repair solutions for every type of vehicle damage.", "Soluciones integrales de reparación sin pintura para todo tipo de daño vehicular.")}
+          </p>
         </div>
       </section>
 
@@ -48,7 +54,7 @@ export default function ServicesPage() {
                   <h2 className="text-xl font-bold text-foreground mb-2 font-heading">{s.title}</h2>
                   <p className="text-sm text-muted-foreground mb-4">{s.heroDescription}</p>
                   <span className="text-sm font-semibold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Learn More <ChevronRight className="w-4 h-4" />
+                    {t("Learn More", "Ver Más")} <ChevronRight className="w-4 h-4" />
                   </span>
                 </Link>
               );

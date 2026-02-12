@@ -1,36 +1,51 @@
 import { useState, useRef, useEffect } from "react";
-import { Volume2, VolumeX, Wrench, Award } from "lucide-react";
+import { Volume2, VolumeX, Wrench, Award, Play } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface VideoAssistantProps {
   onChoose: (choice: "quote" | "training") => void;
 }
 
+const VIMEO_BASE = "https://player.vimeo.com/video";
 const VIMEO_PARAMS = "dnt=1&title=0&byline=0&portrait=0&loop=1&autopause=0&controls=0&background=0";
 
-const videos = {
-  intro: `https://player.vimeo.com/video/1164392249?${VIMEO_PARAMS}`,
-  quote: `https://player.vimeo.com/video/1164392384?${VIMEO_PARAMS}&autoplay=1&muted=1`,
-  training: `https://player.vimeo.com/video/1164392428?${VIMEO_PARAMS}&autoplay=1&muted=1`,
+const videoIds = {
+  intro: "1164392249",
+  quote: "1164392384",
+  training: "1164392428",
 };
 
 export default function VideoAssistant({ onChoose }: VideoAssistantProps) {
   const { t } = useLanguage();
   const [choice, setChoice] = useState<null | "quote" | "training">(null);
+  const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const currentSrc = choice === "quote" ? videos.quote : choice === "training" ? videos.training : videos.intro;
+  const currentId = choice === "quote" ? videoIds.quote : choice === "training" ? videoIds.training : videoIds.intro;
+  const currentSrc = `${VIMEO_BASE}/${currentId}?${VIMEO_PARAMS}&muted=1`;
 
-  // Post message to Vimeo to mute/unmute
+  // Post message to Vimeo player API
+  const postVimeo = (method: string, value?: unknown) => {
+    if (!iframeRef.current?.contentWindow) return;
+    const msg: Record<string, unknown> = { method };
+    if (value !== undefined) msg.value = value;
+    iframeRef.current.contentWindow.postMessage(JSON.stringify(msg), "*");
+  };
+
+  const handlePlay = () => {
+    setPlaying(true);
+    postVimeo("play");
+  };
+
   useEffect(() => {
-    if (iframeRef.current) {
-      iframeRef.current.contentWindow?.postMessage(
-        JSON.stringify({ method: muted ? "setVolume" : "setVolume", value: muted ? 0 : 1 }),
-        "*"
-      );
-    }
+    postVimeo("setVolume", muted ? 0 : 1);
   }, [muted]);
+
+  // Reset play state when video source changes
+  useEffect(() => {
+    setPlaying(false);
+  }, [currentId]);
 
   const handleChoice = (c: "quote" | "training") => {
     setChoice(c);
@@ -50,14 +65,35 @@ export default function VideoAssistant({ onChoose }: VideoAssistantProps) {
           title="Dent Master Introduction"
         />
 
-        {/* Mute toggle */}
-        <button
-          onClick={() => setMuted(!muted)}
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-          aria-label={muted ? "Unmute" : "Mute"}
-        >
-          {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-        </button>
+        {/* Play button overlay — shows when not playing */}
+        {!playing && (
+          <button
+            onClick={handlePlay}
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] transition-opacity hover:bg-black/30"
+            aria-label={t("Play video", "Reproducir video")}
+          >
+            <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center shadow-xl shadow-primary/30 hover:scale-110 transition-transform">
+              <Play className="w-9 h-9 text-primary-foreground ml-1" fill="currentColor" />
+            </div>
+            <span className="mt-4 text-white text-sm font-medium">
+              {t("Tap to Play", "Toca para Reproducir")}
+            </span>
+          </button>
+        )}
+
+        {/* Mute/Sound toggle — only visible when playing */}
+        {playing && (
+          <button
+            onClick={() => setMuted(!muted)}
+            className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-full bg-black/60 backdrop-blur-sm px-3 py-2 text-white hover:bg-black/80 transition-colors"
+            aria-label={muted ? "Unmute" : "Mute"}
+          >
+            {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+            <span className="text-xs font-medium">
+              {muted ? t("Tap for Sound", "Activar Sonido") : t("Mute", "Silenciar")}
+            </span>
+          </button>
+        )}
 
         {/* Bottom overlay with gradient + action buttons */}
         <div className="absolute inset-x-0 bottom-0 z-10">
