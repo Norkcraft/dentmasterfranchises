@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { reviews } from "@/data/reviews";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ReviewsCarousel() {
   const [current, setCurrent] = useState(0);
@@ -8,6 +9,7 @@ export default function ReviewsCarousel() {
   const timerRef = useRef<ReturnType<typeof setInterval>>();
   const touchStartRef = useRef(0);
   const total = reviews.length;
+  const { lang } = useLanguage();
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total]);
   const prev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total]);
@@ -34,7 +36,6 @@ export default function ReviewsCarousel() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Cards track */}
       <div className="overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-out"
@@ -48,7 +49,9 @@ export default function ReviewsCarousel() {
                     <Star key={i} className="w-4 h-4 fill-primary text-primary" />
                   ))}
                 </div>
-                <p className="text-foreground text-sm leading-relaxed flex-1 mb-4">"{r.text}"</p>
+                <p className="text-foreground text-sm leading-relaxed flex-1 mb-4">
+                  "{lang === "es" ? r.textEs : r.text}"
+                </p>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-semibold text-foreground">{r.name}</span>
                   <span className="text-xs text-muted-foreground">{r.source}</span>
@@ -59,7 +62,6 @@ export default function ReviewsCarousel() {
         </div>
       </div>
 
-      {/* Nav arrows */}
       <button
         onClick={prev}
         className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-10 h-10 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors z-10"
@@ -75,7 +77,6 @@ export default function ReviewsCarousel() {
         <ChevronRight className="w-5 h-5" />
       </button>
 
-      {/* Dots */}
       <div className="flex justify-center gap-2 mt-6">
         {reviews.map((_, i) => (
           <button

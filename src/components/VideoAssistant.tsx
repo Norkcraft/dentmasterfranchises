@@ -1,18 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Volume2, VolumeX, Wrench, Award, Play } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Player from "@vimeo/player";
 
 interface VideoAssistantProps {
   onChoose: (choice: "quote" | "training") => void;
 }
 
-const VIMEO_BASE = "https://player.vimeo.com/video";
-const VIMEO_PARAMS = "dnt=1&title=0&byline=0&portrait=0&loop=1&autopause=0&controls=0&background=0";
-
 const videoIds = {
-  intro: "1164392249",
-  quote: "1164392384",
-  training: "1164392428",
+  intro: 1164392249,
+  quote: 1164392384,
+  training: 1164392428,
 };
 
 export default function VideoAssistant({ onChoose }: VideoAssistantProps) {
@@ -20,32 +18,58 @@ export default function VideoAssistant({ onChoose }: VideoAssistantProps) {
   const [choice, setChoice] = useState<null | "quote" | "training">(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<Player | null>(null);
 
   const currentId = choice === "quote" ? videoIds.quote : choice === "training" ? videoIds.training : videoIds.intro;
-  const currentSrc = `${VIMEO_BASE}/${currentId}?${VIMEO_PARAMS}&muted=1`;
 
-  // Post message to Vimeo player API
-  const postVimeo = (method: string, value?: unknown) => {
-    if (!iframeRef.current?.contentWindow) return;
-    const msg: Record<string, unknown> = { method };
-    if (value !== undefined) msg.value = value;
-    iframeRef.current.contentWindow.postMessage(JSON.stringify(msg), "*");
-  };
-
-  const handlePlay = () => {
-    setPlaying(true);
-    postVimeo("play");
-  };
-
+  // Create / recreate player when video id changes
   useEffect(() => {
-    postVimeo("setVolume", muted ? 0 : 1);
-  }, [muted]);
+    if (!containerRef.current) return;
 
-  // Reset play state when video source changes
-  useEffect(() => {
+    // Destroy old player
+    if (playerRef.current) {
+      playerRef.current.destroy();
+      playerRef.current = null;
+    }
+
     setPlaying(false);
+    setMuted(true);
+
+    const player = new Player(containerRef.current, {
+      id: currentId,
+      dnt: true,
+      title: false,
+      byline: false,
+      portrait: false,
+      loop: true,
+      autopause: false,
+      controls: false,
+      muted: true,
+      responsive: true,
+    });
+
+    player.on("play", () => setPlaying(true));
+    player.on("pause", () => setPlaying(false));
+
+    playerRef.current = player;
+
+    return () => {
+      player.destroy();
+    };
   }, [currentId]);
+
+  const handlePlay = useCallback(() => {
+    playerRef.current?.play();
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    setMuted((prev) => {
+      const next = !prev;
+      playerRef.current?.setVolume(next ? 0 : 1);
+      return next;
+    });
+  }, []);
 
   const handleChoice = (c: "quote" | "training") => {
     setChoice(c);
@@ -56,14 +80,8 @@ export default function VideoAssistant({ onChoose }: VideoAssistantProps) {
     <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/40 border border-border bg-card">
       {/* Portrait video container */}
       <div className="relative" style={{ aspectRatio: "9 / 16", maxHeight: "600px" }}>
-        <iframe
-          ref={iframeRef}
-          src={currentSrc}
-          className="absolute inset-0 w-full h-full"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-          title="Dent Master Introduction"
-        />
+        {/* Vimeo player mounts here */}
+        <div ref={containerRef} className="absolute inset-0 w-full h-full [&>iframe]:!w-full [&>iframe]:!h-full [&>iframe]:!absolute [&>iframe]:!inset-0" />
 
         {/* Play button overlay — shows when not playing */}
         {!playing && (
@@ -84,7 +102,7 @@ export default function VideoAssistant({ onChoose }: VideoAssistantProps) {
         {/* Mute/Sound toggle — only visible when playing */}
         {playing && (
           <button
-            onClick={() => setMuted(!muted)}
+            onClick={toggleMute}
             className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-full bg-black/60 backdrop-blur-sm px-3 py-2 text-white hover:bg-black/80 transition-colors"
             aria-label={muted ? "Unmute" : "Mute"}
           >
