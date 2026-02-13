@@ -58,7 +58,7 @@ export default function CityPage() {
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced || !sectionsRef.current) return;
-    const { ScrollTrigger } = gsap;
+    const ScrollTrigger = (await import("gsap/ScrollTrigger")).ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
     const sections = sectionsRef.current.querySelectorAll(".content-section");
