@@ -71,6 +71,11 @@ export default function HomePage() {
 
   const handleVideoChoice = (choice: "quote" | "training") => {
     setVideoChoice(choice);
+    // Don't show form yet — wait for Continue
+  };
+
+  const handleVideoContinue = (choice: "quote" | "training") => {
+    setVideoChoice(choice);
     setShowForm(true);
   };
 
@@ -155,7 +160,7 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-2">
             <Award className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium text-foreground">{t("Certified Technicians", "Técnicos Certificados")}</span>
+            <span className="text-sm font-medium text-foreground">{t("35+ Years Experience", "35+ Años de Experiencia")}</span>
           </div>
           <span className="highlight-badge">🇪🇸 Hablamos Español</span>
         </div>
@@ -165,10 +170,10 @@ export default function HomePage() {
       <section className="section-padding bg-charcoal">
         <div className="section-container" ref={counterRef}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="counter-item text-center"><AnimatedCounter end={35} suffix="+" label={t("Years of Experience", "Años de Experiencia")} /></div>
             <div className="counter-item text-center"><AnimatedCounter end={5000} suffix="+" label={t("Dents Repaired", "Abolladuras Reparadas")} /></div>
             <div className="counter-item text-center"><AnimatedCounter end={25} suffix="+" label={t("Cities Served", "Ciudades Atendidas")} /></div>
             <div className="counter-item text-center"><AnimatedCounter end={100} suffix="%" label={t("Satisfaction Rate", "Satisfacción")} /></div>
-            <div className="counter-item text-center"><AnimatedCounter end={5} prefix="" suffix=".0" label={t("Google Rating", "Calificación Google")} /></div>
           </div>
         </div>
       </section>
@@ -217,7 +222,7 @@ export default function HomePage() {
             {/* Right — Portrait video card */}
             <div className="flex justify-center">
               <div className="w-full max-w-[340px]">
-                <VideoAssistant onChoose={handleVideoChoice} />
+                <VideoAssistant onChoose={handleVideoChoice} onContinue={handleVideoContinue} />
               </div>
             </div>
           </div>
