@@ -10,6 +10,7 @@ export const BUSINESS = {
   instagram: "https://www.instagram.com/dentmasterfranchise",
   tiktok: "https://www.tiktok.com/@dentmasterfranchise",
   canonical: "https://www.dentmasterfranchise.com",
+  address: "1616 Golden Poppy Ct. Orlando, FL 32824",
   location: "Orlando, FL",
 } as const;
 
