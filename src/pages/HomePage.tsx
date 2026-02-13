@@ -196,8 +196,7 @@ export default function HomePage() {
               <ul className="space-y-4 mb-8">
                 {[
                   t("✓ Free estimates within minutes", "✓ Presupuestos gratis en minutos"),
-                  t("✓ We come to your location", "✓ Vamos a su ubicación"),
-                  t("✓ Hands-on PDR training available", "✓ Entrenamiento práctico disponible"),
+                  t("✓ 35+ years of experience", "✓ Más de 35 años de experiencia"),
                   t("✓ Hablamos Español", "✓ Hablamos Español"),
                 ].map((item) => (
                   <li key={item} className="text-foreground font-medium">{item}</li>
