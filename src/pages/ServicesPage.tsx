@@ -12,7 +12,7 @@ const icons = [Wrench, Zap, Car, Shield, Wrench];
 export default function ServicesPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const gridRef = useScrollReveal<HTMLDivElement>({ childSelector: ".service-card", stagger: 0.1, y: 30, scale: 0.95 });
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -36,7 +36,7 @@ export default function ServicesPage() {
             {t("Our PDR Services", "Nuestros Servicios PDR")}
           </h1>
           <p className="hero-anim text-lg text-white/70 max-w-2xl">
-            {t("Comprehensive paintless dent repair solutions for every type of vehicle damage.", "Soluciones integrales de reparación sin pintura para todo tipo de daño vehicular.")}
+            {t("Comprehensive paintless dent repair solutions for every type of vehicle damage. 35+ years of experience.", "Soluciones integrales de reparación sin pintura para todo tipo de daño vehicular. Más de 35 años de experiencia.")}
           </p>
         </div>
       </section>
@@ -51,8 +51,8 @@ export default function ServicesPage() {
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
                     <Icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold text-foreground mb-2 font-heading">{s.title}</h2>
-                  <p className="text-sm text-muted-foreground mb-4">{s.heroDescription}</p>
+                  <h2 className="text-xl font-bold text-foreground mb-2 font-heading">{lang === "es" ? s.titleEs : s.title}</h2>
+                  <p className="text-sm text-muted-foreground mb-4">{lang === "es" ? s.heroDescriptionEs : s.heroDescription}</p>
                   <span className="text-sm font-semibold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
                     {t("Learn More", "Ver Más")} <ChevronRight className="w-4 h-4" />
                   </span>

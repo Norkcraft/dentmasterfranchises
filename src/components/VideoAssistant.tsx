@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Volume2, VolumeX, Wrench, Award, Play, SkipForward, ArrowRight } from "lucide-react";
+import { Volume2, VolumeX, Wrench, Award, Play, Pause, SkipForward, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Player from "@vimeo/player";
 
@@ -72,6 +72,10 @@ export default function VideoAssistant({ onChoose, onContinue }: VideoAssistantP
     playerRef.current?.play();
   }, []);
 
+  const handlePause = useCallback(() => {
+    playerRef.current?.pause();
+  }, []);
+
   const toggleMute = useCallback(() => {
     setMuted((prev) => {
       const next = !prev;
@@ -106,7 +110,6 @@ export default function VideoAssistant({ onChoose, onContinue }: VideoAssistantP
             className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] transition-opacity hover:bg-black/30"
             aria-label={t("Play video", "Reproducir video")}
           >
-            {/* Pulsing ring + play */}
             <div className="relative w-20 h-20 flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border-2 border-primary/60 animate-[ping_2s_ease-out_infinite]" />
               <div className="absolute inset-[-4px] rounded-full border border-primary/30 animate-[spin_8s_linear_infinite]"
@@ -118,6 +121,18 @@ export default function VideoAssistant({ onChoose, onContinue }: VideoAssistantP
             <span className="mt-4 text-white text-sm font-medium">
               {t("Tap to Play", "Toca para Reproducir")}
             </span>
+          </button>
+        )}
+
+        {/* Pause button — top left when playing */}
+        {playing && (
+          <button
+            onClick={handlePause}
+            className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-black/60 backdrop-blur-sm px-3 py-2 text-white hover:bg-black/80 transition-colors"
+            aria-label={t("Pause video", "Pausar video")}
+          >
+            <Pause className="w-5 h-5" />
+            <span className="text-xs font-medium">{t("Pause", "Pausar")}</span>
           </button>
         )}
 
