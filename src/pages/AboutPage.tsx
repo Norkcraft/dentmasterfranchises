@@ -10,13 +10,22 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { BUSINESS, DEALER_DISCOUNT_TEXT } from "@/data/constants";
 import { Shield, Users, Award, Heart } from "lucide-react";
 
-const faqs = [
-  { q: "What is Dent Master Franchise?", a: "Dent Master Franchise is Orlando's leading paintless dent repair company, specializing in hail damage repair, door ding removal, collision repair, and fender repair — all without repainting." },
-  { q: "How long has Dent Master Franchise been in business?", a: "We've been serving Central Florida for years, building a reputation for excellence, honesty, and outstanding results in the paintless dent repair industry." },
+const faqsEn = [
+  { q: "What is Dent Master Franchise?", a: "Dent Master Franchise is Orlando's leading paintless dent repair company with over 35 years of experience, specializing in hail damage repair, door ding removal, collision repair, and fender repair — all without repainting." },
+  { q: "How long has Dent Master Franchise been in business?", a: "With 35+ years of experience in the PDR industry, we've built a reputation for excellence, honesty, and outstanding results." },
   { q: "Are your technicians certified?", a: "Yes, all our PDR technicians are professionally trained and certified with years of hands-on experience repairing thousands of vehicles." },
   { q: "Do you offer training for new technicians?", a: "Yes! We offer in-person PDR training for beginners and intermediate technicians. Daily, weekly, and monthly options are available." },
   { q: "What areas do you serve?", a: "We serve Orlando and 25+ cities across Central Florida, including Kissimmee, Winter Park, Sanford, Lake Mary, Oviedo, and many more." },
   { q: "Do you provide Spanish-language support?", a: "¡Sí! Hablamos Español. Our team includes Spanish-speaking staff ready to assist you with any service needs." },
+];
+
+const faqsEs = [
+  { q: "¿Qué es Dent Master Franchise?", a: "Dent Master Franchise es la empresa líder de reparación de abolladuras sin pintura en Orlando, con más de 35 años de experiencia." },
+  { q: "¿Cuánto tiempo lleva Dent Master Franchise en el negocio?", a: "Con más de 35 años de experiencia en la industria PDR, hemos construido una reputación de excelencia y resultados sobresalientes." },
+  { q: "¿Sus técnicos están certificados?", a: "Sí, todos nuestros técnicos de PDR están profesionalmente entrenados y certificados con años de experiencia." },
+  { q: "¿Ofrecen entrenamiento para nuevos técnicos?", a: "¡Sí! Ofrecemos entrenamiento presencial de PDR para principiantes e intermedios. Opciones diarias, semanales y mensuales disponibles." },
+  { q: "¿Qué áreas atienden?", a: "Servimos a Orlando y más de 25 ciudades en Florida Central, incluyendo Kissimmee, Winter Park, Sanford, Lake Mary, Oviedo y más." },
+  { q: "¿Ofrecen soporte en español?", a: "¡Sí! Hablamos Español. Nuestro equipo incluye personal hispanohablante listo para ayudarle." },
 ];
 
 export default function AboutPage() {
@@ -24,7 +33,7 @@ export default function AboutPage() {
   const valuesRef = useScrollReveal<HTMLDivElement>({ childSelector: ".value-card", stagger: 0.1, y: 30, scale: 0.95 });
   const counterRef = useScrollReveal<HTMLDivElement>({ childSelector: ".counter-item", stagger: 0.15, y: 30 });
   const contentRef = useScrollReveal<HTMLDivElement>({ childSelector: ".content-section", stagger: 0.12, y: 30 });
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const values = [
     { icon: Shield, title: t("Quality Guaranteed", "Calidad Garantizada"), desc: t("Every repair backed by our satisfaction guarantee. We don't stop until it's perfect.", "Cada reparación respaldada por nuestra garantía de satisfacción.") },
@@ -49,7 +58,7 @@ export default function AboutPage() {
         path="/about"
       />
       <LocalBusinessJsonLd />
-      <FAQJsonLd faqs={faqs} />
+      <FAQJsonLd faqs={faqsEn} />
 
       <section className="bg-charcoal">
         <div className="section-container py-16 md:py-24" ref={heroRef}>
@@ -81,10 +90,10 @@ export default function AboutPage() {
       <section className="py-12 bg-muted">
         <div className="section-container" ref={counterRef}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="counter-item"><AnimatedCounter end={35} suffix="+" label={t("Years Experience", "Años de Experiencia")} /></div>
             <div className="counter-item"><AnimatedCounter end={5000} suffix="+" label={t("Vehicles Repaired", "Vehículos Reparados")} /></div>
             <div className="counter-item"><AnimatedCounter end={25} suffix="+" label={t("Cities Served", "Ciudades Atendidas")} /></div>
             <div className="counter-item"><AnimatedCounter end={100} suffix="%" label={t("Satisfaction Rate", "Satisfacción")} /></div>
-            <div className="counter-item"><AnimatedCounter end={5} suffix=".0" label={t("Star Rating", "Calificación")} /></div>
           </div>
         </div>
       </section>
@@ -120,7 +129,7 @@ export default function AboutPage() {
 
           <div className="content-section mb-12">
             <h2 className="text-2xl font-bold text-foreground mb-6 font-heading">{t("Frequently Asked Questions", "Preguntas Frecuentes")}</h2>
-            <FAQSection faqs={faqs} />
+            <FAQSection faqs={lang === "es" ? faqsEs : faqsEn} />
           </div>
 
           <div className="text-center">

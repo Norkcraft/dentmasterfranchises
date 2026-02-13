@@ -10,20 +10,29 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { BUSINESS, TRAINING_PRICING } from "@/data/constants";
 import { BookOpen, Wrench, Award, Target } from "lucide-react";
 
-const faqs = [
+const faqsEn = [
   { q: "Do I need prior experience for PDR training?", a: "No! Our training program is designed for total beginners as well as intermediate technicians." },
   { q: "What does the training include?", a: "Hands-on training covers PDR fundamentals, tool usage, damage assessment, repair techniques, and business basics." },
-  { q: "Where is training held?", a: "Training is conducted in-person at our Orlando, FL facility." },
+  { q: "Where is training held?", a: "Training is conducted in-person at our Orlando, FL facility with 35+ years of industry expertise behind the curriculum." },
   { q: "Which training option should I choose?", a: "Daily for introductions, weekly for solid foundations, monthly for comprehensive career-ready preparation." },
-  { q: "What tools do I need?", a: "All tools and materials are provided during training." },
+  { q: "What tools do I need?", a: "All professional-grade PDR tools and materials are provided during training." },
   { q: "Can I start working after training?", a: "Many graduates begin working independently after completing our program." },
+];
+
+const faqsEs = [
+  { q: "¿Necesito experiencia previa para el entrenamiento PDR?", a: "¡No! Nuestro programa está diseñado tanto para principiantes como para técnicos intermedios." },
+  { q: "¿Qué incluye el entrenamiento?", a: "El entrenamiento práctico cubre fundamentos de PDR, uso de herramientas, evaluación de daños, técnicas de reparación y conceptos básicos del negocio." },
+  { q: "¿Dónde se realiza el entrenamiento?", a: "El entrenamiento se realiza en persona en nuestras instalaciones de Orlando, FL, con más de 35 años de experiencia en la industria." },
+  { q: "¿Qué opción de entrenamiento debo elegir?", a: "Diario para introducción, semanal para bases sólidas, mensual para preparación profesional completa." },
+  { q: "¿Qué herramientas necesito?", a: "Todas las herramientas y materiales profesionales de PDR se proporcionan durante el entrenamiento." },
+  { q: "¿Puedo empezar a trabajar después del entrenamiento?", a: "Muchos graduados comienzan a trabajar de forma independiente después de completar nuestro programa." },
 ];
 
 export default function LearnPDRPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useScrollReveal<HTMLDivElement>({ childSelector: ".feature-card", stagger: 0.1, y: 30, scale: 0.95 });
   const pricingRef = useScrollReveal<HTMLDivElement>({ childSelector: ".pricing-card", stagger: 0.12, y: 30 });
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const features = [
     { icon: BookOpen, title: t("Expert Instruction", "Instrucción Experta"), desc: t("Learn from PDR professionals with thousands of repairs.", "Aprenda de profesionales con miles de reparaciones.") },
@@ -48,7 +57,7 @@ export default function LearnPDRPage() {
         path="/learn-pdr"
       />
       <ServiceJsonLd name="PDR Training" description="Hands-on paintless dent repair training in Orlando, FL." url="/learn-pdr" />
-      <FAQJsonLd faqs={faqs} />
+      <FAQJsonLd faqs={faqsEn} />
 
       <section className="bg-charcoal">
         <div className="section-container py-16 md:py-24" ref={heroRef}>
@@ -56,7 +65,7 @@ export default function LearnPDRPage() {
             {t("Learn Paintless Dent Repair", "Aprenda Reparación sin Pintura")}
           </h1>
           <p className="hero-anim text-lg text-white/70 max-w-3xl">
-            {t("Hands-on, in-person PDR training in Orlando, FL. No experience required.", "Entrenamiento práctico y presencial en Orlando, FL. No se requiere experiencia.")}
+            {t("Hands-on, in-person PDR training in Orlando, FL — backed by 35+ years of industry experience. No experience required.", "Entrenamiento práctico y presencial en Orlando, FL — respaldado por más de 35 años de experiencia. No se requiere experiencia previa.")}
           </p>
         </div>
       </section>
@@ -107,7 +116,7 @@ export default function LearnPDRPage() {
 
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-foreground mb-6 font-heading">{t("Frequently Asked Questions", "Preguntas Frecuentes")}</h2>
-            <FAQSection faqs={faqs} />
+            <FAQSection faqs={lang === "es" ? faqsEs : faqsEn} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
