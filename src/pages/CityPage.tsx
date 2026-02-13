@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SEOHead from "@/components/SEOHead";
 import { ServiceJsonLd, FAQJsonLd } from "@/components/JsonLd";
 import FAQSection from "@/components/FAQSection";
