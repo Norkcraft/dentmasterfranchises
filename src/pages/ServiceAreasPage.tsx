@@ -24,7 +24,7 @@ export default function ServiceAreasPage() {
     <>
       <SEOHead
         title={t("Service Areas — Paintless Dent Repair Central Florida | Dent Master Franchise", "Áreas de Servicio — Reparación sin Pintura Florida Central | Dent Master Franchise")}
-        description={t("Dent Master Franchise serves 25+ cities across Central Florida.", "Dent Master Franchise sirve a más de 25 ciudades en Florida Central.")}
+        description={t("Dent Master Franchise serves 25+ cities across Central Florida with 35+ years of experience.", "Dent Master Franchise sirve a más de 25 ciudades en Florida Central con más de 35 años de experiencia.")}
         path="/service-areas"
       />
 
@@ -34,7 +34,10 @@ export default function ServiceAreasPage() {
             {t("Our Service Areas", "Nuestras Áreas de Servicio")}
           </h1>
           <p className="hero-anim text-lg text-white/70 max-w-2xl">
-            {t("Serving Orlando and 25+ cities across Central Florida with expert paintless dent repair.", "Sirviendo a Orlando y más de 25 ciudades en Florida Central con reparación de abolladuras experta.")}
+            {t(
+              "Serving Orlando and 25+ cities across Central Florida with 35+ years of expert paintless dent repair experience.",
+              "Sirviendo a Orlando y más de 25 ciudades en Florida Central con más de 35 años de experiencia en reparación de abolladuras sin pintura."
+            )}
           </p>
         </div>
       </section>
