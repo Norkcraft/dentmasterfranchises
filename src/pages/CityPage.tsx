@@ -41,8 +41,10 @@ export default function CityPage() {
   const { slug } = useParams<{ slug: string }>();
   const city = getCityBySlug(slug || "");
   const heroRef = useRef<HTMLDivElement>(null);
-  const sectionsRef = useScrollReveal<HTMLDivElement>({ childSelector: ".content-section", stagger: 0.12, y: 30 });
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+
+  // Alternating left/right scroll reveals for content sections
+  const sectionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -52,7 +54,30 @@ export default function CityPage() {
     gsap.to(els, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: "power3.out", delay: 0.15 });
   }, [slug]);
 
+  // Alternating left/right entrance for content sections
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced || !sectionsRef.current) return;
+    const { ScrollTrigger } = gsap;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const sections = sectionsRef.current.querySelectorAll(".content-section");
+    sections.forEach((el, i) => {
+      const fromX = i % 2 === 0 ? -60 : 60;
+      gsap.set(el, { opacity: 0, x: fromX });
+      gsap.to(el, {
+        opacity: 1, x: 0, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 85%", once: true },
+      });
+    });
+
+    return () => { ScrollTrigger.getAll().forEach(t => t.kill()); };
+  }, [slug, lang]);
+
   if (!city) return <div className="section-container section-padding text-center"><h1 className="text-2xl font-bold font-heading">{t("City not found", "Ciudad no encontrada")}</h1></div>;
+
+  const sections = lang === "es" ? city.sectionsEs : city.sections;
+  const faqs = lang === "es" ? city.faqsEs : city.faqs;
 
   return (
     <>
@@ -62,8 +87,8 @@ export default function CityPage() {
 
       <section className="bg-charcoal">
         <div className="section-container py-16 md:py-24" ref={heroRef}>
-          <h1 className="hero-anim text-3xl md:text-5xl font-bold text-white mb-4 font-heading">{city.h1}</h1>
-          <p className="hero-anim text-lg text-white/70 max-w-3xl mb-8">{city.intro}</p>
+          <h1 className="hero-anim text-3xl md:text-5xl font-bold text-white mb-4 font-heading">{lang === "es" ? city.h1Es : city.h1}</h1>
+          <p className="hero-anim text-lg text-white/70 max-w-3xl mb-8">{lang === "es" ? city.introEs : city.intro}</p>
           <div className="hero-anim flex flex-wrap gap-4">
             <Link to="/contact" className="btn-hero-primary">{t("Get Instant Quote", "Cotización Gratis")}</Link>
             <a href={BUSINESS.phoneHref} className="btn-hero bg-white/10 text-white border-2 border-white/20 hover:bg-white/20">{BUSINESS.phone}</a>
@@ -73,7 +98,7 @@ export default function CityPage() {
 
       <article className="section-padding bg-background">
         <div className="section-container max-w-4xl" ref={sectionsRef}>
-          {city.sections.map((s, i) => (
+          {sections.map((s, i) => (
             <div key={i} className="content-section mb-12 group">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 font-heading group-hover:text-primary transition-colors duration-300">{s.heading}</h2>
               <p className="text-foreground/80 leading-relaxed whitespace-pre-line">{s.content}</p>
@@ -91,7 +116,7 @@ export default function CityPage() {
 
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-foreground mb-6 font-heading">{t(`Frequently Asked Questions About PDR in ${city.city}`, `Preguntas Frecuentes sobre PDR en ${city.city}`)}</h2>
-            <FAQSection faqs={city.faqs} />
+            <FAQSection faqs={faqs} />
           </div>
 
           <div className="mt-12 text-center">
