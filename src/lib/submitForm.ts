@@ -1,28 +1,32 @@
 const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzV7vJ1z9pPJSj_twj1w82BtnILERn3d0BziydZ6YS0r7X5i9x4x_UJMpZX_8LaTLam2A/exec";
+  "https://script.google.com/macros/s/AKfycbwgfVqQBAHI_HRwKjd6ZZfGzUA6ghHBB6fIX0N9MfRz4rAdL4XckBQ16u0CcPLIhckUNw/exec";
 const TOKEN = "36176298Dd@";
 
-export async function submitForm(data: Record<string, string>): Promise<{ ok: boolean }> {
+export async function submitForm(data: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> {
   try {
     const payload = { ...data, token: TOKEN };
     const res = await fetch(APPS_SCRIPT_URL, {
       method: "POST",
-      headers: { "Content-Type": "text/plain" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
     const json = await res.json();
-    return { ok: json?.result === "success" || res.ok };
+    if (json?.ok) return { ok: true };
+    return { ok: false, error: json?.error || "Unknown error" };
   } catch {
-    // Even if fetch fails (CORS / opaque), treat as sent since Apps Script often returns opaque
-    return { ok: true };
+    return { ok: false, error: "Network error" };
   }
 }
 
-export async function fileToBase64(file: File): Promise<string> {
+export async function fileToBase64Object(file: File): Promise<{ filename: string; mimeType: string; dataBase64: string }> {
   const dataUrl = await new Promise<string>((resolve) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
     reader.readAsDataURL(file);
   });
-  return dataUrl.replace(/^data:.*;base64,/, "");
+  return {
+    filename: file.name,
+    mimeType: file.type || "image/jpeg",
+    dataBase64: dataUrl.replace(/^data:.*;base64,/, ""),
+  };
 }
