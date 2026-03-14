@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Send, ArrowRight, ArrowLeft, CheckCircle, Loader2, Upload, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { submitForm, fileToBase64 } from "@/lib/submitForm";
+import { submitForm, fileToBase64Object } from "@/lib/submitForm";
 
 interface QuoteFormProps {
   compact?: boolean;
@@ -59,11 +59,11 @@ export default function QuoteForm({ compact }: QuoteFormProps) {
     setSending(true);
     setError("");
     try {
-      const photoData: string[] = [];
+      const photoData = [];
       for (const p of photos) {
-        photoData.push(await fileToBase64(p));
+        photoData.push(await fileToBase64Object(p));
       }
-      const payload: Record<string, string | string[]> = {
+      const payload: Record<string, unknown> = {
         formType: "quote",
         fullName: form.fullName,
         phone: form.phone,
@@ -74,10 +74,9 @@ export default function QuoteForm({ compact }: QuoteFormProps) {
         vehicleModel: form.vehicleModel,
         damageType: form.damageType,
         damageDescription: form.damageDescription,
-        lang,
+        photos: photoData,
       };
-      if (photoData.length > 0) (payload as Record<string, unknown>).photos = photoData;
-      const res = await submitForm(payload as Record<string, string>);
+      const res = await submitForm(payload);
       if (!res.ok) {
         setError(t("Submission failed. Please try again or call us directly.", "Error al enviar. Intente de nuevo o llámenos directamente."));
         setSending(false);
