@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Send, ArrowRight, ArrowLeft, CheckCircle, Loader2, Upload, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { submitForm, fileToBase64 } from "@/lib/submitForm";
+import { submitForm, fileToBase64Object } from "@/lib/submitForm";
 
 interface QuoteFormProps {
   compact?: boolean;
