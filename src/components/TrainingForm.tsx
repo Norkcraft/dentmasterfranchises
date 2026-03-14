@@ -60,7 +60,6 @@ export default function TrainingForm() {
         trainingOption: form.trainingOption,
         startTimeframe: form.startTimeframe,
         message: form.message,
-        lang,
       });
       if (!res.ok) {
         setError(t("Submission failed. Please try again or call us directly.", "Error al enviar. Intente de nuevo o llámenos directamente."));
