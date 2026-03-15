@@ -31,15 +31,32 @@ export async function submitForm(data: Record<string, unknown>): Promise<{ ok: b
   }
 }
 
+async function compressImage(file: File, maxWidth = 1200, quality = 0.7): Promise<Blob> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxWidth / img.width);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => resolve(blob!), "image/jpeg", quality);
+    };
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 export async function fileToBase64Object(file: File): Promise<{ filename: string; mimeType: string; dataBase64: string }> {
+  const compressed = await compressImage(file);
   const dataUrl = await new Promise<string>((resolve) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(compressed);
   });
   return {
-    filename: file.name,
-    mimeType: file.type || "image/jpeg",
+    filename: file.name.replace(/\.\w+$/, ".jpg"),
+    mimeType: "image/jpeg",
     dataBase64: dataUrl.replace(/^data:.*;base64,/, ""),
   };
 }
