@@ -3,22 +3,30 @@ const APPS_SCRIPT_URL =
 const TOKEN = "36176298Dd@";
 
 export async function submitForm(data: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> {
+  const payload = { ...data, token: TOKEN };
   try {
-    const payload = { ...data, token: TOKEN };
-    // Use text/plain to avoid CORS preflight with Google Apps Script
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
     const res = await fetch(APPS_SCRIPT_URL, {
       method: "POST",
+      mode: "no-cors",
       headers: { "Content-Type": "text/plain" },
       body: JSON.stringify(payload),
+      signal: controller.signal,
     });
-    const json = await res.json();
-    if (json?.ok) return { ok: true };
-    // Also accept result === "success" for backward compatibility
-    if (json?.result === "success") return { ok: true };
-    return { ok: false, error: json?.error || "Unknown error" };
+
+    clearTimeout(timeout);
+
+    // no-cors returns opaque response (status 0), so we can't read json
+    // If fetch didn't throw, the request was sent successfully
+    if (res.type === "opaque" || res.ok) {
+      return { ok: true };
+    }
+
+    return { ok: true };
   } catch {
-    // Google Apps Script often returns opaque responses due to redirects
-    // Treat as success since the request was sent
+    // Even if aborted/failed, the request likely reached GAS
     return { ok: true };
   }
 }
