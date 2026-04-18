@@ -55,7 +55,6 @@ export default function QuoteForm({ compact }: QuoteFormProps) {
       if (!form.vehicleModel.trim()) errs.vehicleModel = t("Model is required", "El modelo es obligatorio");
     } else if (s === 2) {
       if (!form.damageType) errs.damageType = t("Select damage type", "Seleccione el tipo de daño");
-      if (!form.damageDescription.trim()) errs.damageDescription = t("Describe the damage", "Describa el daño");
     }
     setStepErrors(errs);
     return Object.keys(errs).length === 0;
@@ -289,7 +288,7 @@ export default function QuoteForm({ compact }: QuoteFormProps) {
             {stepErrors.damageType && <p className={errCls}>{stepErrors.damageType}</p>}
           </div>
           <div>
-            <label htmlFor={damageDescriptionId} className="text-sm font-medium text-foreground mb-1 block">{t("Damage Description", "Descripción del Daño")} *</label>
+            <label htmlFor={damageDescriptionId} className="text-sm font-medium text-foreground mb-1 block">{t("Damage Description", "Descripción del Daño")}</label>
             <textarea
               id={damageDescriptionId}
               value={form.damageDescription}
