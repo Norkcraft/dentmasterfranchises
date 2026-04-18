@@ -1,0 +1,19 @@
+{
+    "name": "Dent Master Franchise",
+    "short_name": "Dent Master",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#d92323",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

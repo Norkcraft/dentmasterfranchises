@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls /c/Users/not found/Downloads/dent-master-shine/components/*.tsx)",
+      "Bash(find . -path \"./app/\\(marketing\\)/*.tsx\" -o -path \"./components/pages/*.tsx\")",
+      "Bash(xargs wc:*)",
+      "Bash(cd:*)"
+    ]
+  }
+}

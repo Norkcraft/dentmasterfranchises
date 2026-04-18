@@ -1,0 +1,17 @@
+diff --git a/node_modules/next/dist/build/swc/index.js b/node_modules/next/dist/build/swc/index.js
+index 75168d8..ec17459 100644
+--- a/node_modules/next/dist/build/swc/index.js
++++ b/node_modules/next/dist/build/swc/index.js
+@@ -280,6 +280,12 @@ async function loadBindings(useWasmBinary = false) {
+             }
+             attempts = attempts.concat(a);
+         }
++        if (!disableWasmFallback) {
++            const fallbackBindings = await tryLoadWasmWithFallback(attempts);
++            if (fallbackBindings) {
++                return resolve(fallbackBindings);
++            }
++        }
+         logLoadFailure(attempts, true);
+     });
+     return pendingBindings;
