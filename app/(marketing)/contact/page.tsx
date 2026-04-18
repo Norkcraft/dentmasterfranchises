@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  const localBusinessSchema = buildLocalBusinessSchema();
+  const localBusinessSchema = buildLocalBusinessSchema({ ratingValue: "5.0", reviewCount: "7" });
 
   return (
     <>

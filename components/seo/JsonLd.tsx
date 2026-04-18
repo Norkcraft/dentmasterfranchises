@@ -72,6 +72,13 @@ export function LocalBusinessJsonLd({ name, description }: LocalBusinessProps) {
         closes: "18:00",
       },
     ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5.0",
+      reviewCount: "7",
+      bestRating: "5",
+      worstRating: "1",
+    },
     sameAs: siteConfig.sameAs,
     image: [`${siteConfig.url}${siteConfig.ogImage}`],
   };
