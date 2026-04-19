@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
 import { siteConfig } from '@/lib/seo';
 import Providers from './providers';
 import Header from '@/components/layout/Header';
@@ -114,8 +113,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </div>
         </Providers>
-        <Script src="https://analytics.com/script.js" strategy="afterInteractive" id="analytics" />
-        <Script src="https://widget.com/embed.js" strategy="lazyOnload" id="chat-widget" />
       </body>
     </html>
   );
