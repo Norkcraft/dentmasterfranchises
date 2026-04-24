@@ -17,11 +17,11 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
   const canonical = buildCanonical(input.path);
   const ogImage = input.ogImage ?? siteConfig.ogImage;
   const description = fitMetaDescription(input.description);
-  const brandSuffix = `| ${siteConfig.name}`;
+  const brandSuffix = '| Dent Master';
 
   let title = input.title.trim();
-  title = title.replace(/\|\s*Dent Master\s*$/i, brandSuffix);
-  if (!/Dent Master Franchise/i.test(title) && !/Dent Master/i.test(title)) {
+  title = title.replace(/\|\s*Dent Master(?:\s+Franchise)?\s*$/i, brandSuffix);
+  if (!/Dent Master/i.test(title)) {
     title = `${title} ${brandSuffix}`;
   }
 
@@ -42,6 +42,7 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
     },
     twitter: {
       card: 'summary_large_image',
+      site: siteConfig.twitterHandle,
       title: input.title,
       description,
       images: [ogImage],

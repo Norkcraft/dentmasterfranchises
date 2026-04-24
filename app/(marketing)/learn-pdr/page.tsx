@@ -6,7 +6,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     title: "Paintless Dent Repair Training — Orlando | Dent Master",
     description:
-      "Paintless dent repair training in Orlando with hands-on coaching and real repairs. Build skills fast and start earning sooner. Get my training info today.",
+      "Hands-on PDR training in Orlando. Daily ($400), weekly ($1,800), and monthly ($6,800) courses for beginners and working techs. Build skills fast and start earning sooner.",
     path: "/learn-pdr",
   });
 }

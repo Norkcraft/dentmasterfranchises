@@ -15,6 +15,8 @@ const faqs = [
   { q: "Can you service our vehicles on-site?", a: "Yes, we offer on-site PDR service at your dealership, lot, or fleet location." },
   { q: "How fast is turnaround for fleet repairs?", a: "We prioritize fleet clients and can often complete repairs within 1-3 business days." },
   { q: "Do you offer ongoing service agreements?", a: "Yes, we can establish ongoing service arrangements with regular scheduling." },
+  { q: "Do you handle auto dealer reconditioning?", a: "Yes. We specialize in dealership PDR reconditioning — batch dent repairs that get vehicles lot-ready faster and at a lower cost than traditional body shops. Our recon process preserves factory paint and avoids carfax-reportable body work." },
+  { q: "Do you repair rental car fleets?", a: "Yes. We work with rental car agencies and fleet operators across the Orlando area, including near MCO. Rental fleets benefit from our fast batch turnaround, on-site service, and volume pricing." },
 ];
 
 export default function DealershipsFleetPage() {
@@ -99,10 +101,22 @@ export default function DealershipsFleetPage() {
 
           <div className="content-section mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 font-heading">
-              {t("Professional PDR for Business Clients", "PDR Profesional para Clientes Comerciales")}
+              {t("Dealership PDR Reconditioning in Orlando", "Reacondicionamiento PDR para Concesionarios en Orlando")}
+            </h2>
+            <p className="text-foreground/80 leading-relaxed mb-4">
+              {t("Dent Master Franchise is the preferred PDR reconditioning partner for dealerships, auto lots, wholesalers, and fleet operators throughout Orlando and Central Florida. Fast recon turnaround keeps inventory retail-ready and moving — without the cost or timeline of traditional body shop work.", "Dent Master Franchise es el socio PDR preferido para concesionarios, lotes de autos y operadores de flotas en Orlando y Florida Central. El reacondicionamiento rápido mantiene el inventario listo para la venta.")}
+            </p>
+            <p className="text-foreground/80 leading-relaxed">
+              {t("Our lot-damage PDR service handles batch repairs efficiently, preserves factory paint so there is nothing to report on CarFax, and keeps your per-unit recon cost well below what a body shop would charge.", "Nuestro servicio PDR maneja reparaciones por lote eficientemente, preserva la pintura de fábrica y mantiene el costo de reacondicionamiento por unidad muy por debajo de lo que cobraría un taller de carrocería.")}
+            </p>
+          </div>
+
+          <div className="content-section mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 font-heading">
+              {t("Rental Car Fleet Dent Repair Near MCO", "Reparación de Abolladuras para Flotas de Renta cerca de MCO")}
             </h2>
             <p className="text-foreground/80 leading-relaxed">
-              {t("Dent Master Franchise is the preferred PDR provider for dealerships, auto lots, wholesalers, and fleet operators throughout Orlando and Central Florida. We understand that vehicle appearance directly impacts sales and business success.", "Dent Master Franchise es el proveedor PDR preferido para concesionarios, lotes de autos y operadores de flotas en Orlando y Florida Central.")}
+              {t("Orlando International Airport is home to one of the largest rental car hubs in the country. Dent Master Franchise works with rental car agencies and fleet operators near MCO to keep vehicles road-ready between rentals. Our on-site service, fast batch turnaround, and volume pricing are designed for the pace of rental fleet operations.", "El Aeropuerto Internacional de Orlando alberga uno de los centros de autos de alquiler más grandes del país. Dent Master Franchise trabaja con agencias de renta y operadores de flotas cerca de MCO para mantener los vehículos listos entre alquileres.")}
             </p>
           </div>
 

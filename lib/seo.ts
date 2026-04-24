@@ -5,7 +5,7 @@ export const siteConfig = {
   description:
     'Paintless dent repair in Orlando, FL for hail damage, door dings, and dents. We keep factory paint, move fast, and make quotes simple.',
   ogImage: '/og/default.jpg',
-  twitterHandle: '',
+  twitterHandle: '@dentmasterfranchise',
   address: {
     street: '1616 Golden Poppy Ct',
     city: 'Orlando',

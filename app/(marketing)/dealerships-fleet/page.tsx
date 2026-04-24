@@ -6,7 +6,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     title: "Fleet Dent Repair — Orlando Discounts | Dent Master",
     description:
-      "Fleet dent repair in Orlando that keeps inventory retail-ready. We fix dings in batches, cut recon time, and protect factory paint. Get my fleet quote.",
+      "Dealership PDR reconditioning in Orlando. Batch repairs, 10–20% volume discount, fast recon turnaround, factory paint protected. Get my fleet quote today.",
     path: "/dealerships-fleet",
   });
 }

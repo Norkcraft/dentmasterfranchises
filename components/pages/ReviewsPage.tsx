@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { Star } from "lucide-react";
 import { LocalBusinessJsonLd } from "@/components/seo/JsonLd";
 import ReviewCard from "@/components/ReviewCard";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -66,6 +67,29 @@ export default function ReviewsPage() {
             <a href={BUSINESS.googleMaps} target="_blank" rel="noopener noreferrer" className="btn-primary">{t("Read Google Reviews for Proof", "Lea Reseñas en Google")}</a>
             <a href={BUSINESS.facebook} target="_blank" rel="noopener noreferrer" className="btn-secondary">{t("Read Facebook Reviews for Proof", "Lea Reseñas en Facebook")}</a>
           </div>
+
+          {/* Review acquisition CTA */}
+          <div className="mt-12 bg-accent/50 rounded-xl p-8 text-center">
+            <div className="flex justify-center gap-1 mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+              ))}
+            </div>
+            <h2 className="text-xl font-bold text-foreground mb-2 font-heading">
+              {t("Had a great experience?", "¿Tuvo una gran experiencia?")}
+            </h2>
+            <p className="text-muted-foreground text-sm mb-5">
+              {t(
+                "Your Google review helps other Orlando drivers find honest dent repair. It takes less than a minute.",
+                "Su reseña en Google ayuda a otros conductores en Orlando a encontrar reparación honesta de abolladuras. Toma menos de un minuto."
+              )}
+            </p>
+            <Link href="/leave-a-review" className="btn-primary inline-flex items-center gap-2">
+              <Star className="w-4 h-4 fill-white text-white" />
+              {t("Leave a Review", "Dejar una Reseña")}
+            </Link>
+          </div>
+
           <div className="text-center mt-8">
             <Link href="/contact" className="btn-secondary">{t("Get My Free Quote in Minutes", "Obtenga Mi Cotización en Minutos")}</Link>
           </div>

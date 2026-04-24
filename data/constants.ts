@@ -5,6 +5,9 @@ export const BUSINESS = {
   email: "Support@dentmasterfranchise.com",
   whatsapp: "https://wa.link/ebe3jf",
   googleMaps: "https://maps.app.goo.gl/9JZF77KDsxvvspwf9?g_st=ic",
+  // Replace with your Google Business Profile direct review link.
+  // Get it from: GBP dashboard → Ask for reviews → Copy link
+  googleReview: "https://g.page/r/YOUR_PLACE_ID/review",
   yelp: "https://m.yelp.com/biz/dent-master-franchise-orlando-4",
   facebook: "https://www.facebook.com/dentmasterfranchise",
   instagram: "https://www.instagram.com/dentmasterfranchise",

@@ -135,6 +135,11 @@ export const cities: CityData[] = [
   cityBase("Rockledge", "paintless-dent-repair-rockledge-fl"),
   cityBase("Lakeland", "paintless-dent-repair-lakeland-fl"),
   cityBase("Haines City", "paintless-dent-repair-haines-city-fl"),
+  cityBase("Lake Nona", "paintless-dent-repair-lake-nona-fl"),
+  cityBase("Daytona Beach", "paintless-dent-repair-daytona-beach-fl"),
+  cityBase("Cape Canaveral", "paintless-dent-repair-cape-canaveral-fl"),
+  cityBase("Palm Bay", "paintless-dent-repair-palm-bay-fl"),
+  cityBase("New Smyrna Beach", "paintless-dent-repair-new-smyrna-beach-fl"),
 ];
 
 export function getCityBySlug(slug: string): CityData | undefined {

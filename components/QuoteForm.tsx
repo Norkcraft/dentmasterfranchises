@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import Image from "next/image";
-import { Send, ArrowRight, ArrowLeft, CheckCircle, Loader2, Upload, X } from "lucide-react";
+import { Send, ArrowRight, ArrowLeft, CheckCircle, Loader2, Upload, X, Star } from "lucide-react";
+import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { submitForm, fileToBase64Object } from "@/lib/submitForm";
 
@@ -111,9 +112,21 @@ export default function QuoteForm({ compact }: QuoteFormProps) {
         <h3 className="text-2xl font-bold text-foreground mb-2 font-heading">
           {t("Quote Request Sent!", "¡Solicitud de Cotización Enviada!")}
         </h3>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground mb-6">
           {t("We'll review your request and get back to you shortly.", "Revisaremos su solicitud y le responderemos pronto.")}
         </p>
+        <div className="mt-6 border-t border-border pt-6">
+          <p className="text-sm text-muted-foreground mb-3">
+            {t("Already a customer? Your review helps others find us.", "¿Ya fue cliente? Su reseña nos ayuda a crecer.")}
+          </p>
+          <Link
+            href="/leave-a-review"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+          >
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            {t("Leave a Google Review →", "Deje una Reseña en Google →")}
+          </Link>
+        </div>
       </div>
     );
   }
