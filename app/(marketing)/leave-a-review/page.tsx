@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const platforms = [
   {
     name: "Google",
-    href: BUSINESS.googleReview,
+    href: BUSINESS.googleMaps,
     description: "Most helpful for local search",
     primary: true,
     color: "bg-[#4285F4] hover:bg-[#3367D6] text-white",
@@ -93,7 +93,7 @@ export default function LeaveAReviewPage() {
         {/* Spanish version */}
         <p className="text-xs text-muted-foreground mb-1">¿Prefiere escribir en español?</p>
         <a
-          href={BUSINESS.googleReview}
+          href={BUSINESS.googleMaps}
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm text-primary hover:underline"
